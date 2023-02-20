@@ -102,10 +102,9 @@ const ProductSort = () => {
                 </div>
             </div>
 
-           <div className='col-span-3'>
-           <SortedProductShow/>
-
-           </div>
+            <div className='col-span-3'>
+                <SortedProductShow />
+            </div>
 
         </div>
     );

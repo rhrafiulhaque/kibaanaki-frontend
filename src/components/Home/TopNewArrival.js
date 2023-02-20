@@ -3,6 +3,7 @@ import tv from './../../img/tv.png';
 import { faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 
 const TopNewArrival = () => {
     return (
@@ -32,7 +33,7 @@ const TopNewArrival = () => {
                             <span className='flex items-center justify-center text-xs'>(150)</span>
                         </div>
                     </div>
-                    <button className='block duration-150 uppercase w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition'>Add to cart</button>
+                    <Link to={'/product/1'} className='block duration-150 uppercase w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition'>Add to cart</Link>
                 </div>
                 <div className='bg-white shadow rounded '>
                     <div className='relative group'>
@@ -57,7 +58,7 @@ const TopNewArrival = () => {
                             <span className='flex items-center justify-center text-xs'>(150)</span>
                         </div>
                     </div>
-                    <button className='block duration-500 uppercase w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition'>Add to cart</button>
+                    <Link to={'/product/1'} className='block duration-500 uppercase w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition'>Add to cart</Link>
                 </div>
                 <div className='bg-white shadow rounded '>
                     <div className='relative group'>
@@ -82,7 +83,7 @@ const TopNewArrival = () => {
                             <span className='flex items-center justify-center text-xs'>(150)</span>
                         </div>
                     </div>
-                    <button className='block duration-150 uppercase w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition'>Add to cart</button>
+                    <Link to={'/product/1'} className='block duration-150 uppercase w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition'>Add to cart</Link>
                 </div>
                 <div className='bg-white shadow rounded '>
                     <div className='relative group'>
@@ -107,7 +108,7 @@ const TopNewArrival = () => {
                             <span className='flex items-center justify-center text-xs'>(150)</span>
                         </div>
                     </div>
-                    <button className='block duration-150 uppercase w-full py-1  text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition'>Add to cart</button>
+                    <Link to={'/product/1'} className='block duration-150 uppercase w-full py-1  text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition'>Add to cart</Link>
                 </div>
             </div>
 
