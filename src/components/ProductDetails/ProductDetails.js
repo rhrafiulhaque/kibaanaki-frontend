@@ -5,34 +5,35 @@ import shoe from '../../img/shoe.png';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import RelatedProducts from './RelatedProducts';
+import ProductRatings from '../../Utilities/ProductRatings';
 
-const ProductDetails = () => {
+const ProductDetails = ({product}) => {
+        const {product_name, price,old_price,brand ,model, description, color, img, imgThree, availibility,category,ratings,size} =product;
+        
     return (
         <div className='container'>
             <div className=' grid grid-cols-2 gap-6 mt-10'>
-                <div className='w-full'>
-                    <img src={shoe} className="object-fill" alt='' />
-                </div>
+            {imgThree? <div className={`w-full c-viewer `}><iframe title="chair" className="c-viewer__iframe" src={imgThree} ></iframe></div> :<div className={`w-full`}> <img src={img} className="object-fill" alt='' /></div>}
+               
+                
+                    
+                
 
                 <div className='space-y-2'>
-                    <h1 className='uppercase text-2xl font-medium'>MENS ADDIDAS COURTSMACH</h1>
+                    <h1 className='uppercase text-2xl font-medium'>{product_name}</h1>
                     <div className='flex items-center space-x-2'>
-                        <FontAwesomeIcon className=' text-sm text-yellow-400' icon={faStar} />
-                        <FontAwesomeIcon className=' text-sm text-yellow-400' icon={faStar} />
-                        <FontAwesomeIcon className=' text-sm text-yellow-400' icon={faStar} />
-                        <FontAwesomeIcon className=' text-sm text-yellow-400' icon={faStar} />
-                        <FontAwesomeIcon className=' text-sm text-yellow-400' icon={faStar} />
+                        <ProductRatings ratings={ratings}/>
                         <span className='flex items-center justify-center text-sm text-gray-500'>50 reviews</span>
                     </div>
 
                     <div className='space-y-3 '>
                         <h2 className='font-semibold'>Availability: <span className='text-green-700 font-normal'>In Stock</span></h2>
-                        <h2 className='font-semibold'>Brand: <span className='text-gray-800 font-normal'>Bata</span></h2>
-                        <h2 className='font-semibold'>Category: <span className='text-gray-800 font-normal'>Shoes</span></h2>
-                        <h2 className='font-semibold'>SKU: <span className='text-gray-800 font-normal'>BE45GVRT</span></h2>
-                        <h1 className='text-primary text-xl font-semibold '>$4500.00 <span className='text-gray-500 line-through text-base'>$5000</span></h1>
+                        <h2 className='font-semibold'>Brand: <span className='text-gray-800 font-normal'>{brand }</span></h2>
+                        <h2 className='font-semibold'>Category: <span className='text-gray-800 font-normal'>{category}</span></h2>
+                        <h2 className='font-semibold'>SKU: <span className='text-gray-800 font-normal'>{model}</span></h2>
+                        <h1 className='text-primary text-xl font-semibold '>${price} <span className='text-gray-500 line-through text-base'>${old_price}</span></h1>
 
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta nisi accusamus perferendis vel provident a at, nulla esse nam odio?</p>
+                        <p>{description}</p>
 
 
                         {/* Product Size Start */}
@@ -42,27 +43,11 @@ const ProductDetails = () => {
                                 <div className='size-selector'>
                                     <input type="radio" name='size' className='hidden' id='size-xs' />
                                     <label htmlFor="size-xs" className='text-xs border border-primary rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600'>
-                                        XS
+                                        {size}
                                     </label>
                                 </div>
-                                <div className='size-selector'>
-                                    <input type="radio" name='size' className='hidden' id='size-m' />
-                                    <label htmlFor="size-m" className='text-xs border border-primary rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600'>
-                                        M
-                                    </label>
-                                </div>
-                                <div className='size-selector'>
-                                    <input type="radio" name='size' className='hidden' id='size-l' />
-                                    <label htmlFor="size-l" className='text-xs border border-primary rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600'>
-                                        L
-                                    </label>
-                                </div>
-                                <div className='size-selector'>
-                                    <input type="radio" name='size' className='hidden' id='size-lg' />
-                                    <label htmlFor="size-lg" className='text-xs border border-primary rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600'>
-                                        LG
-                                    </label>
-                                </div>
+                                
+                               
                             </div>
                         </div>
                         {/* Product Size End */}

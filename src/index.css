@@ -24,3 +24,28 @@ body{
         @apply block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0;
     }
 }
+
+
+
+.viewer-container {  
+    position: relative;  
+    z-index: 1;
+    padding-top: 56%;
+    pointer-events: none;
+}
+.c-viewer {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+}
+.c-viewer__iframe {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    border: none
+}
+
+
+

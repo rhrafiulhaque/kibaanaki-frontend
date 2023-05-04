@@ -2,25 +2,30 @@ import React from 'react';
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
 import Loading from '../Loading/Loading';
+import { useUserRegisterMutation } from '../../features/auth/authApi';
 
 const RegisterForm = () => {
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
     const [ createUserWithEmailAndPassword,user,loading, error,] = useCreateUserWithEmailAndPassword(auth);
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+    const [userRegister] = useUserRegisterMutation();
+    const navigate = useNavigate();
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = async (data)=>{
         const {name,email,password}=data;
         await createUserWithEmailAndPassword(email,password);
         await updateProfile({displayName:name});
+        await userRegister(data);
     } 
 
     let signInError = '';
     if (gError||updateError||error) {
-        signInError = <p className='text-red-500'>{gError.message || updateError.message|| error.message}</p>
+        signInError = <p className='text-red-500'>{gError?.message || updateError?.message|| error?.message}</p>
+        
     }
 
     if (gLoading||updating||loading) {
@@ -28,7 +33,7 @@ const RegisterForm = () => {
     }
 
     if (gUser||user) {
-        console.log(gUser);
+        navigate('/')
     }
 
     return (

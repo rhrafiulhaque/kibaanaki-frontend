@@ -10,6 +10,7 @@ import ProductView from './components/pages/ProductView';
 import Register from './components/pages/Register';
 import UserAccount from './Dashboard/UserDashboard/UserAccount';
 import UserProfile from './Dashboard/UserDashboard/UserProfile';
+import ProductForm from './components/test1';
 
 
 function App() {
@@ -23,7 +24,8 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/useraccount' element={<UserAccount />} />
         <Route path='/profile' element={<UserProfile />} />
-        <Route path='/product/1' element={<ProductView />} />
+        <Route path='/product/:id' element={<ProductView />} />
+        <Route path='/test' element={<ProductForm />} />
 
       </Routes>
       <Footer />
