@@ -23,7 +23,7 @@ const TopNewArrival = () => {
 
     return (
         <div className='container my-5'>
-            <h2 className='uppercase text-2xl font-medium text-gray-800 mb-6'>top new arrival</h2>
+            <h2 className='uppercase text-2xl font-medium text-gray-800 mb-6'>Products</h2>
             <div className='grid grid-cols-4 gap-6'>
                 {content}
             </div>

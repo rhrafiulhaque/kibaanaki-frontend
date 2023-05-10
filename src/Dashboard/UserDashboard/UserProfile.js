@@ -3,8 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import avatar from '../../img/avatar.png'
 import React from 'react';
 import DashboardLayout from '../DashboardLayout';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../firebase.init';
+
+
 
 const UserProfile = () => {
+    const [user] = useAuthState(auth);
     return (
         <DashboardLayout>
             <div className='col-span-9 '>
@@ -13,7 +18,7 @@ const UserProfile = () => {
                     <div className='space-y-4'>
                         <div>
                             <label className="text-gray-600 mb-2 block">Name <span className="text-primary">*</span></label>
-                            <input type="text" className="block w-full max-w-md border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
+                            <input type="text" value={user?.displayName} disabled className="block w-full max-w-md border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
                         </div>
                         <div className='grid grid-cols-2 gap-6'>
                             <div>
@@ -32,7 +37,7 @@ const UserProfile = () => {
                         <div className='grid grid-cols-2 gap-6'>
                             <div>
                                 <label className="text-gray-600 mb-2 block">Email<span className="text-primary">*</span></label>
-                                <input type="email" className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
+                                <input type="email" value={user?.email} disabled className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
                             </div>
                             <div>
                                 <label className="text-gray-600 mb-2 block">Mobile Number<span className="text-primary">*</span></label>

@@ -3,8 +3,17 @@ import React from 'react';
 import avatar from '../../img/avatar.png'
 import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
+import { Link, Navigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import auth from '../../firebase.init';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const Sidebar = () => {
+    const [user] = useAuthState(auth);
+    const logout = () => {
+        signOut(auth);
+        Navigate('/');
+    };
     return (
         <div className='col-span-3'>
             {/* account profile Start  */}
@@ -14,7 +23,7 @@ const Sidebar = () => {
                 </div>
                 <div className='flex-grow'>
                     <p className='text-gray-600'>Hello,</p>
-                    <h4 className='text-gray-800 font-medium'>Alexa </h4>
+                    <h4 className='text-gray-800 font-medium'>{user?.displayName.toUpperCase()} </h4>
                 </div>
             </div>
             {/* account profile End */}
@@ -60,12 +69,12 @@ const Sidebar = () => {
                 {/* single link end  */}
                 {/* single link start  */}
                 <div className='space-y-1 pl-8 pt-5'>
-                    <a href="" className='relative text-gray-800 block font-medium capitalize' >
+                    <Link href="" className='relative text-gray-800 block font-medium capitalize' onClick={logout} >
                         <span className=' absolute -left-8 top-0 text-base'>
                             <FontAwesomeIcon icon={faPowerOff} />
                         </span>
                         Log Out
-                    </a>
+                    </Link>
                 </div>
                 {/* single link end  */}
 

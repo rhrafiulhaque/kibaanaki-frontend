@@ -24,14 +24,7 @@ const Header = () => {
                     <input type="text" placeholder='Search' className='w-full border border-primary pl-12 py-3 pr-3 rounded-1-md focus:outline-none' />
                     <button className='bg-primary border border-primary text-white px-8 rounded-r-md hover:bg-transparent hover:text-[#FD3D57] transition'>Search</button>
                 </div>
-                <div className='flex items-center space-x-4'>
-                    <Link className='text-center text-gray-500 hover:text-[#FD3D57] transition relative'>
-                        <span className='text-2xl'>
-                            <FontAwesomeIcon icon={faHeart} />
-                        </span>
-                        <div className='text-xs leading-3'>Wishlist</div>
-                        <span className='absolute right-0 -top-1 w-5 h-5 rounded-full bg-[#FD3D57] flex items-center justify-center text-white text-xs'>7</span>
-                    </Link>
+                <div className='flex  space-x-8'>                    
                     <Link className='text-center text-gray-500 hover:text-[#FD3D57] transition relative'>
                         <span className='text-2xl'>
                             <FontAwesomeIcon icon={faCartShopping} />
@@ -40,11 +33,11 @@ const Header = () => {
                         <span className='absolute right-0 -top-1 w-5 h-5 rounded-full bg-[#FD3D57] flex items-center justify-center text-white text-xs'>3</span>
                     </Link>
                     
-                    <Link className='text-center text-gray-500 hover:text-[#FD3D57] transition relative' onClick={handleFlip}>
+                    <Link className='text-center text-gray-500 hover:text-[#FD3D57] transition relative duration-300' onClick={handleFlip}>
                         <span className='text-2xl'>
                             <FontAwesomeIcon icon={faUser} />
                         </span>
-                        <div className='text-xs leading-3'>{user?user.displayName:'Account'}</div>
+                        <div className='text-xs leading-3'>{user?user?.displayName:'Account'}</div>
                         {flip && <AccountFlip />}
                     </Link>
                 </div>

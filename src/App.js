@@ -11,6 +11,15 @@ import Register from './components/pages/Register';
 import UserAccount from './Dashboard/UserDashboard/UserAccount';
 import UserProfile from './Dashboard/UserDashboard/UserProfile';
 import ProductForm from './components/test1';
+import RequireAuth from './Utilities/RequireAuth';
+import AdminLoginForm from './components/Login/AdminLogin/AdminLoginForm';
+import NotFound from './components/NotFound/NotFound';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import AddProduct from './Dashboard/AdminDashboard/AddProduct';
+import RequireAdmin from './Utilities/RequireAdmin';
+import ComingSoon from './components/NotFound/ComingSoon';
+
 
 
 function App() {
@@ -23,12 +32,20 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/useraccount' element={<UserAccount />} />
-        <Route path='/profile' element={<UserProfile />} />
+        <Route path='/profile' element={<RequireAuth>
+          <UserProfile />
+        </RequireAuth>} />
         <Route path='/product/:id' element={<ProductView />} />
+        <Route path='/admin' element={<AdminLoginForm />} />
+        <Route path='/admin/dashboard' element={<RequireAdmin>
+          <AddProduct />
+        </RequireAdmin>} />
         <Route path='/test' element={<ProductForm />} />
-
+        <Route path='/comingsoon' element={<ComingSoon />} />
+        <Route path="*" element={<NotFound></NotFound>}></Route>
       </Routes>
       <Footer />
+      <ToastContainer />
     </div>
   );
 }

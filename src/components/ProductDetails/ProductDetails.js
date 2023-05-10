@@ -8,7 +8,7 @@ import RelatedProducts from './RelatedProducts';
 import ProductRatings from '../../Utilities/ProductRatings';
 
 const ProductDetails = ({product}) => {
-        const {product_name, price,old_price,brand ,model, description, color, img, imgThree, availibility,category,ratings,size} =product;
+        const {product_name, price,old_price,brand ,model, description, color, img, imgThree, availibility,category,ratings=0,size} =product;
         
     return (
         <div className='container'>
@@ -33,7 +33,9 @@ const ProductDetails = ({product}) => {
                         <h2 className='font-semibold'>SKU: <span className='text-gray-800 font-normal'>{model}</span></h2>
                         <h1 className='text-primary text-xl font-semibold '>${price} <span className='text-gray-500 line-through text-base'>${old_price}</span></h1>
 
-                        <p>{description}</p>
+                        {/* <p>{description}</p> */}
+                        <div dangerouslySetInnerHTML={{__html:description}}></div>
+                        
 
 
                         {/* Product Size Start */}
@@ -57,7 +59,7 @@ const ProductDetails = ({product}) => {
                             <h1 className='text-normal text-base uppercase '>Quantity</h1>
                             <div className='flex border border-gray-300 divide-x divide-gray-300 w-max'>
                                 <span className='h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none'>-</span>
-                                <span className='h-8 w-8 text-base flex items-center justify-center cursor-pointer select-none'>4</span>
+                                <span className='h-8 w-8 text-base flex items-center justify-center cursor-pointer select-none'>1</span>
                                 <span className='h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none'>+</span>
                             </div>
                         </div>
