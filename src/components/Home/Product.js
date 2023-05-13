@@ -4,7 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Product = ({ product }) => {
-    const { _id, product_name, img, imgThree, ratings, price } = product;
+    const { _id, product_name, img, ratings, price } = product;
 
     function productRating(ratings) {
         const stars = [];
@@ -35,7 +35,7 @@ const Product = ({ product }) => {
                 <p class="text-base text-primary font-medium">{price}</p>
                 <div class="flex items-center">
                     {productRating(ratings)}
-                    <span class="flex items-center justify-center text-xs">(150)</span>
+                    {/* <span class="flex items-center justify-center text-xs">(150)</span> */}
                 </div>
             </div>
             <Link to={`/product/${_id}`} class="uppercase w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition">Add to cart</Link>
