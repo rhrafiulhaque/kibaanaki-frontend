@@ -12,7 +12,7 @@ const Footer = () => {
     return (
         <div>
             <div className='bg-[#F3F3F3] mt-14 pt-20 px-7'>
-                <div className=' grid grid-cols-4 flex justify-center items-center gap-6'>
+                <div className=' grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 justify-center items-center gap-6'>
                     <div className='space-y-3 max-w-sm'>
                         <h1 className='uppercase text-3xl font-semibold'>Kinbaa<span className='text-primary'>Naki?</span></h1>
                         <p>We are the best E-commerce in Bangladesh.  Lorem ipsum, dolor sit amet consectetur adipisicing elit. </p>

@@ -7,7 +7,7 @@ const TopRanking = () => {
     return (
         <div className='container'>
             <h1 className=' text-2xl uppercase text-gray-800 pb-8 font-medium '>Top Ranking</h1>
-            <div className='grid grid-cols-4 gap-6'>
+            <div className='grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-6 md:grid md:justify-center md:items-center'>
                     <div>
                         <h1 className='text-lg pb-5 font-medium'>Smart Watch</h1>
                         <div className='grid gap-6'>

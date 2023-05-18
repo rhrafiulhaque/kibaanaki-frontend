@@ -10,7 +10,7 @@ const Categories = () => {
     return (
         <div className='container my-10'>
             <h1 className='text-2xl font-medium uppercase py-5'>shop by category</h1>
-            <div className='grid grid-cols-3 gap-6'>
+            <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-6'>
                 <div className=' relative cursor-pointer group'>
                     <img src={category1} alt="" />
                     <div className='absolute bg-black bg-opacity-40 inset-0 flex justify-center items-center'>

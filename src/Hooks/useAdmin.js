@@ -13,7 +13,6 @@ const useAdmin = email => {
             .then((data)=>{
                 if(data?.role==='admin'){
                     setAdmin(true);
-                    console.log('He is admin')
                 }
                 
             })

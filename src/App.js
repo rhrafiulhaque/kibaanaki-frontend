@@ -19,6 +19,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import AddProduct from './Dashboard/AdminDashboard/AddProduct';
 import RequireAdmin from './Utilities/RequireAdmin';
 import ComingSoon from './components/NotFound/ComingSoon';
+import ProductList from './components/ProductList/ProductList';
+import AdminDashboard from './Dashboard/AdminDashboard/AdminDashboard';
+import NotAdmin from './components/Login/AdminLogin/NotAdmin';
 
 
 
@@ -36,9 +39,15 @@ function App() {
           <UserProfile />
         </RequireAuth>} />
         <Route path='/product/:id' element={<ProductView />} />
-        <Route path='/admin' element={<AdminLoginForm />} />
+        <Route path='/admin' element={<NotAdmin><AdminLoginForm /></NotAdmin>} />
         <Route path='/admin/dashboard' element={<RequireAdmin>
+          <AdminDashboard />
+        </RequireAdmin>} />
+        <Route path='/admin/addproduct' element={<RequireAdmin>
           <AddProduct />
+        </RequireAdmin>} />
+        <Route path='/admin/productlist' element={<RequireAdmin>
+          <ProductList />
         </RequireAdmin>} />
         <Route path='/test' element={<ProductForm />} />
         <Route path='/comingsoon' element={<ComingSoon />} />

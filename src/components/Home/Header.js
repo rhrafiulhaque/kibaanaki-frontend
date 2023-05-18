@@ -14,7 +14,7 @@ const Header = () => {
         setFlip(!flip);
     }
     return (
-        <header className='py-4 shadow-sm bg-white'>
+        <header className='py-4 shadow-sm bg-white lg:visible  '>
             <div className='container flex justify-between items-center '>
                 <Link to={'/'} className=' uppercase font-semibold text-2xl'>Kinbaa<span className=' text-primary'>Naki?</span></Link>
                 <div className='w-full max-w-xl relative flex'>

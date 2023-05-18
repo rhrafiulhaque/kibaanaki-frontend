@@ -4,7 +4,7 @@ import mobile from '../../img/mobileApp.png'
 const DownloadApp = () => {
     return (
         <div className='container my-24 bg-[#F3F3F3] py-24'>
-            <div className='flex gap-24'>
+            <div className='grid lg:grid-cols-2 md:grid-cols-1 gap-24'>
                 <img src={mobile} alt="" className=' img-contain' />
 
                 <div className='flex  justify-center items-center'>

@@ -5,7 +5,7 @@ import 'react-quill/dist/quill.snow.css';
 import { useAddProductMutation } from '../../features/product/productApi';
 import { toast } from 'react-toastify';
 import { storage } from '../../firebase.init';
-import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
 
 
@@ -102,7 +102,7 @@ const AddProduct = () => {
 
     return (
         <AdminDashboardLayout>
-            <div className='col-span-9 '>
+            <div className='col-span-9  '>
                 <h2 className='font-semibold text-lg text-gray-600 py-5'> Add New Product</h2>
                 <form onSubmit={handleSubmit}>
                     <div className='space-y-4'>
@@ -141,7 +141,7 @@ const AddProduct = () => {
 
                         {/* Image Preview  */}
                         {imagePreview && <div className='flex-shrink-0'>
-                            {/* <img className=' border border-gray-200 p-1 object-cover' src={imagePreview} alt="" /> */}
+                            
                             <img src={imagePreview} className="h-48 object-contain" alt="product_image" />
                         </div>}
 

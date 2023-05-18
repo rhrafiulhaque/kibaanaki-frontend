@@ -13,16 +13,14 @@ const AdminLoginForm = () => {
     const [signInWithEmailAndPassword, user, loading, error,] = useSignInWithEmailAndPassword(auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-   
-
+    
     if (loading) {
         return <Loading />
     }
-   
-    
+
+
+
     const onSubmit = async (data) => {
-
-
         const { email, password } = data;
         dispatch(
             authApi.endpoints.getAdmin.initiate(
@@ -32,7 +30,7 @@ const AdminLoginForm = () => {
             if (data.role === 'admin') {
                 await signInWithEmailAndPassword(email, password);
                 navigate('/admin/dashboard');
-                
+
             } else {
                 toast.error('You are not Admin');
             }
@@ -76,9 +74,9 @@ const AdminLoginForm = () => {
                                 })
                                 }
                             />
-                            <label class="label">
-                                {errors.email?.type === 'required' && <span class="label-text-alt text-red-500">{errors.email.message}</span>}
-                                {errors.email?.type === 'pattern' && <span class="label-text-alt text-red-500">{errors.email.message}</span>}
+                            <label className="label">
+                                {errors.email?.type === 'required' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
+                                {errors.email?.type === 'pattern' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
                             </label>
                         </div>
                         <div>
@@ -97,10 +95,10 @@ const AdminLoginForm = () => {
                                 })
                                 }
                             />
-                            <label class="label">
-                                {errors.password?.type === 'required' && <span class="label-text-alt text-red-500">{errors.password.message}</span>}
+                            <label className="label">
+                                {errors.password?.type === 'required' && <span className="label-text-alt text-red-500">{errors.password.message}</span>}
 
-                                {errors.password?.type === 'minLength' && <span class="label-text-alt text-red-500">{errors.password.message}</span>}
+                                {errors.password?.type === 'minLength' && <span className="label-text-alt text-red-500">{errors.password.message}</span>}
                             </label>
                         </div>
 
