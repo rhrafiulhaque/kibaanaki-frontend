@@ -7,6 +7,7 @@ import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import bankcard from '../../img/methods.png'
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -21,22 +22,22 @@ const Footer = () => {
                     <div>
                         <h1 className='uppercase text-xl py-3'>My account</h1>
                         <ul className='space-y-2'>
-                            <li><a href="">Orders</a></li>
-                            <li><a href="">Wishlist</a></li>
-                            <li><a href="">Track Order</a></li>
-                            <li><a href="">Manage Account</a></li>
-                            <li><a href="">Return Order</a></li>
+                            <li><Link to={'/comingsoon'}>Orders</Link></li>
+                            <li><Link to={'/comingsoon'}>Wishlist</Link></li>
+                            <li><Link to={'/comingsoon'}>Track Order</Link></li>
+                            <li><Link to={'/comingsoon'}>Manage Account</Link></li>
+                            <li><Link to={'/comingsoon'}>Return Order</Link></li>
                         </ul>
 
                     </div>
                     <div>
                         <h1 className='uppercase text-xl py-3'>Information</h1>
                         <ul className='space-y-2'>
-                            <li><a href="">About Us</a></li>
-                            <li><a href="">Return Policy</a></li>
-                            <li><a href="">Terms & Condition</a></li>
-                            <li><a href="">Privacy Policy</a></li>
-                            <li><a href="">FAQ</a></li>
+                            <li><Link to={'/comingsoon'}>About Us</Link></li>
+                            <li><Link to={'/comingsoon'}>Return Policy</Link></li>
+                            <li><Link to={'/comingsoon'}>Terms & Condition</Link></li>
+                            <li><Link to={'/comingsoon'}>Privacy Policy</Link></li>
+                            <li><Link to={'/comingsoon'}>FAQ</Link></li>
                         </ul>
 
                     </div>
