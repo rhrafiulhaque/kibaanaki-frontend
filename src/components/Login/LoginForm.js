@@ -1,43 +1,58 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import auth from '../../firebase.init';
-import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import Loading from '../Loading/Loading';
+import jwt from 'jwt-decode';
+import { useState } from 'react';
+import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useUserLoginMutation } from '../../features/auth/authApi';
+import { addAuth } from '../../features/auth/authSlice';
+import auth from '../../firebase.init';
+import Loading from '../Loading/Loading';
 
 const LoginForm = () => {
+    const [signInError, setSignInError] = useState('');
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [signInWithEmailAndPassword, user, loading, error,] = useSignInWithEmailAndPassword(auth);
+    const [userLogin] = useUserLoginMutation()
     const navigate = useNavigate();
+    const dispatch = useDispatch()
 
+    const onSubmit = async (data) => {
+        const userInfo = await userLogin(data)
 
-    const onSubmit = (data) => {
-        const { email, password } = data;
-        signInWithEmailAndPassword(email, password);
-        toast.success(`Welcome to KinbaaNaki`,{
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
+        if (userInfo?.error?.data?.success === false) {
+            setSignInError(userInfo?.error?.data?.message);
+        } else {
+            localStorage.setItem('accessToken', userInfo?.data?.data?.accessToken)
+            const accessToken = userInfo?.data?.data?.accessToken;
+            const userDetails = jwt(accessToken);
+            await dispatch(addAuth({ accessToken, userDetails }))
+            navigate('/');
+            toast.success(`Welcome to KinbaaNaki`, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
             });
+
+        }
+
     }
 
-    let signInError = '';
-    if (gError || error) {
-        signInError = <p className='text-red-500'>{gError?.message || error?.message}</p>
+    if (gError) {
+        setSignInError(gError?.message)
     }
 
-    if (gLoading || loading) {
+    if (gLoading) {
         return <Loading />
     }
 
-    if (gUser || user) {
+    if (gUser) {
         navigate('/');
     }
 
@@ -102,7 +117,7 @@ const LoginForm = () => {
                         </div>
                         <div>
                             <button className='px-4 py-2 w-full rounded border border-primary bg-primary text-white hover:bg-white hover:text-primary transition' type='submit'>Login</button>
-                            {signInError}
+                            {signInError && <p className='text-red-500'>{signInError}</p>}
                         </div>
                     </div>
                 </form>
@@ -113,7 +128,6 @@ const LoginForm = () => {
                 </div>
 
                 <div className='mt-6 flex justify-center gap-4'>
-
                     <button className='w-1/2 py-2  text-center bg-yellow-600 text-white rounded uppercase font-roboto font-medium text-sm hover:bg-yellow-500 transition' onClick={() => signInWithGoogle()} >Google</button>
                 </div>
                 <p className='mt-4 text-gray-600 text-center'> Don't Have an account? <Link to={'/register'} className='cursor-pointer text-primary'> Register Now</Link> </p>

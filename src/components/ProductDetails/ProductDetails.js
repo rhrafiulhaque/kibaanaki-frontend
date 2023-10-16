@@ -1,20 +1,26 @@
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
-import shoe from '../../img/shoe.png';
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import RelatedProducts from './RelatedProducts';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import ProductRatings from '../../Utilities/ProductRatings';
+import { addCart } from '../../features/cart/cartSlice';
+import RelatedProducts from './RelatedProducts';
 
 const ProductDetails = ({ product }) => {
-    const { product_name, price, old_price, brand, model, description, color, img, imgThree, availibility, category, ratings = 0, size } = product;
+    const { _id, product_name, price, old_price, brand, model, description, color, img, imgThree, availibility, category, ratings = 0, size } = product;
+    const [quantity, setQuantity] = useState(1);
 
+    const dispatch = useDispatch();
+
+    const handleAddToCart = (_id, product_name, quantity, price, img) => {
+        dispatch(addCart({ _id, product_name, price, quantity, img }));
+        toast.success(`${product_name} added to cart`)
+    }
     return (
         <div className='container'>
             <div className=' grid grid-cols-2 gap-6 mt-10'>
                 {imgThree ? <div className={`w-full c-viewer `}><iframe title="chair" className="c-viewer__iframe" src={imgThree} ></iframe></div> : <div className={`w-full`}> <img src={img} className="object-fill" alt='' /></div>}
-
 
 
 
@@ -45,7 +51,7 @@ const ProductDetails = ({ product }) => {
                                 {
                                     size.map((s) =>
                                         <div className='size-selector'>
-                                            <input type="radio" value={s} name='size' className='hidden' id={`size-${s}`}  />
+                                            <input type="radio" value={s} name='size' className='hidden' id={`size-${s}`} />
                                             <label htmlFor={`size-${s}`} className='text-sm border border-primary rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600'>
                                                 {s}
                                             </label>
@@ -61,20 +67,21 @@ const ProductDetails = ({ product }) => {
                         <div className='mt-8'>
                             <h1 className='text-normal text-base uppercase '>Quantity</h1>
                             <div className='flex border border-gray-300 divide-x divide-gray-300 w-max'>
-                                <span className='h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none'>-</span>
-                                <span className='h-8 w-8 text-base flex items-center justify-center cursor-pointer select-none'>1</span>
-                                <span className='h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none'>+</span>
+                                <button className='h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none' onClick={() => quantity > 1 && setQuantity(quantity - 1)}>-</button>
+                                <span className='h-8 w-8 text-base flex items-center justify-center cursor-pointer select-none'>{quantity}</span>
+                                <button className='h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none' onClick={() => setQuantity(quantity + 1)}>+</button>
                             </div>
                         </div>
                         {/* Product Quantity End */}
 
-                        {/* Cart and Wishlist Start  */}
+                        {/* Cart and Buythings Start  */}
                         <div className='flex  gap-6'>
-                            <button className=' flex justify-center items-center text-uppercase px-8 py-3 border-primary border bg-primary text-white rounded-md hover:bg-white hover:text-primary transition'> <FontAwesomeIcon icon={faCartShopping} className="mr-2" /> Add to Cart</button>
-                            <button className='text-uppercase px-8 py-3 border border-gray-800 text-gray-800 rounded hover:border-primary hover:text-primary transition'> <FontAwesomeIcon icon={faHeart} />  Wishlist</button>
+                            <button className='text-uppercase px-8 py-3 border border-gray-800 text-gray-800 rounded hover:border-primary hover:text-primary transition'> <FontAwesomeIcon icon={faHeart} />  Buy Now</button>
+                            <button className=' flex justify-center items-center text-uppercase px-8 py-3 border-primary border bg-primary text-white rounded-md hover:bg-white hover:text-primary transition' onClick={() => handleAddToCart(_id, product_name, quantity, price, img)}> <FontAwesomeIcon icon={faCartShopping} className="mr-2" /> Add to Cart</button>
+
 
                         </div>
-                        {/* Cart and Wishlist End  */}
+                        {/* Cart and Buythings End  */}
                     </div>
 
 

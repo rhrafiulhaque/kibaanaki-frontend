@@ -1,18 +1,18 @@
+import { faAddressCard, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
-import avatar from '../../img/avatar.png'
-import { faAddressCard } from '@fortawesome/free-solid-svg-icons';
-import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
-import { Link, Navigate } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
-import auth from '../../firebase.init';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { removeAuth } from '../../features/auth/authSlice';
+import avatar from '../../img/avatar.png';
 
 const Sidebar = () => {
-    const [user] = useAuthState(auth);
+    const user = useSelector((state) => state.auth.userDetails);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const logout = () => {
-        signOut(auth);
-        Navigate('/');
+        dispatch(removeAuth())
+        localStorage.removeItem('accessToken');
+        navigate('/');
     };
     return (
         <div className='col-span-3'>
@@ -23,7 +23,7 @@ const Sidebar = () => {
                 </div>
                 <div className='flex-grow'>
                     <p className='text-gray-600'>Hello,</p>
-                    <h4 className='text-gray-800 font-medium'>{user?.displayName.toUpperCase()} </h4>
+                    <h4 className='text-gray-800 font-medium'>{user?.name.toUpperCase()} </h4>
                 </div>
             </div>
             {/* account profile End */}
@@ -32,28 +32,27 @@ const Sidebar = () => {
             <div className='mt-6 bg-white shadow rounded p-4 divide-y divide-gray-200 space-y-4 text-gray-600'>
                 {/* single link start  */}
                 <div className='space-y-1 pl-8'>
-                    <a href="" className='relative text-primary block font-medium capitalize' >
+                    <p className='relative text-primary block font-medium capitalize' >
                         <span className=' absolute -left-8 top-0 text-base'>
                             <FontAwesomeIcon icon={faAddressCard} />
                         </span>
                         Manage Account
-                    </a>
-                    <a href="" className='relative hover:text-primary block capitalize transition'> Profile Info</a>
-                    <a href="" className='relative hover:text-primary block capitalize transition'> Manage Address</a>
-                    <a href="" className='relative hover:text-primary block capitalize transition'> Change Password</a>
+                    </p>
+                    <Link to={`/profile/${user.email}`} className='relative hover:text-primary block capitalize transition'> Profile Info</Link>
+                    <Link to={'/user-address'} className='relative hover:text-primary block capitalize transition'> Manage Address</Link>
                 </div>
                 {/* single link end  */}
                 {/* single link start  */}
                 <div className='space-y-1 pl-8 pt-5'>
-                    <a href="" className='relative text-primary block font-medium capitalize' >
+                    <p href="" className='relative text-primary block font-medium capitalize' >
                         <span className=' absolute -left-8 top-0 text-base'>
                             <FontAwesomeIcon icon={faAddressCard} />
                         </span>
                         My Order History
-                    </a>
-                    <a href="" className='relative hover:text-primary block capitalize transition'> My Returns</a>
-                    <a href="" className='relative hover:text-primary block capitalize transition'> My Cacellations</a>
-                    <a href="" className='relative hover:text-primary block capitalize transition'> My Reviews</a>
+                    </p>
+                    <Link to={'/getorderlist'} className='relative hover:text-primary block capitalize transition'> My Orders</Link>
+                    <Link to={'/'} className='relative hover:text-primary block capitalize transition'> My Cacellations</Link>
+                    <Link to={'/'} className='relative hover:text-primary block capitalize transition'> My Reviews</Link>
                 </div>
                 {/* single link end  */}
                 {/* single link start  */}

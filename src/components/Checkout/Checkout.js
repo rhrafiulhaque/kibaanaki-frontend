@@ -1,42 +1,195 @@
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useGetUserQuery } from "../../features/auth/authApi";
+import { useAddOrderMutation } from "../../features/order/orderApi";
+import Loading from "../Loading/Loading";
+
 const Checkout = () => {
+    const navigate = useNavigate()
+    const cartProducts = useSelector((state) => state.cart.cart)
+    const subTotalPrice = cartProducts.reduce((acc, product) => {
+        // Calculate the subtotal for each product
+        const subtotal = product.quantity * product.price;
+
+        // Add the subtotal to the accumulator
+        return acc + subtotal;
+    }, 0);
+    const user = useSelector((state) => state.auth.userDetails);
+    const { data: userDetails, isLoading, isError } = useGetUserQuery(user.email);
+
+
+    console.log(isLoading)
+    console.log(userDetails?.user)
+    const [addOrder] = useAddOrderMutation()
+    const { register, handleSubmit, watch, formState: { errors } } = useForm({
+        defaultValues: {
+            name: userDetails.user.name,
+            address: userDetails.user.address,
+            district: userDetails.user.district,
+            phonenumber: userDetails.user.phonenumber,
+            email: userDetails.user.email,
+        }
+    });
+    const watchFields = watch(["name", "address", "district", "phonenumber", "email"])
+    let isInactive = true;
+    isInactive = watchFields.includes('');
+
+
+    if (isLoading && !userDetails) {
+        return <Loading />
+    }
+
+
+
+
+    const onSubmit = async (data) => {
+        console.log({ data, cartProducts })
+        const orderDetails = await addOrder({ data, cartProducts })
+        console.log(orderDetails)
+        if (orderDetails?.error?.data?.success === false) {
+            toast.error(`User is Invalid!! Please Login Again`, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            localStorage.removeItem('accessToken')
+            window.location.reload()
+            navigate('/login')
+
+
+        } else {
+            console.log(orderDetails.data.url)
+            window.location.replace(orderDetails.data.url)
+        }
+    }
+
+
+
     return (
-        <div className="container grid grid-cols-12 items-start pb-16 pt-4">
+        cartProducts?.length === 0 ? <div>
+            <div className="container grid grid-cols-12 items-start pb-16 pt-4 gap-4">
+                <div className="col-span-8 border border-gray-200 p-4 rounded">
+                    <h3 className="text-lg font-medium capitalize mb-4 bg-[#E9E4E4] p-4 text-gray-600 rounded w-full">No Carts Found</h3>
+                </div>
+            </div>
+        </div> : <div className="container grid grid-cols-12 items-start pb-16 pt-4 gap-4">
             <div className="col-span-8 border border-gray-200 p-4 rounded">
                 <h3 className="text-lg font-medium capitalize mb-4 bg-[#E9E4E4] p-4 text-gray-600 rounded w-full">Billing Details</h3>
-                <div className="space-y-4">
-                    <div>
-                        <label className="text-gray-600 mb-2 block">Name <span className="text-primary">*</span></label>
-                        <input type="text" className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
+                <form>
+                    <div className="space-y-4">
+                        <div>
+                            <label className='text-gray-600 mb-2 block'>Name <span className='text-red-600'>*</span> </label>
+                            <input type="text" defaultValue={userDetails.name} className='block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400' placeholder='Enter your Full Name'
+                                {
+                                ...register('name', {
+                                    required: {
+                                        value: true,
+                                        message: 'Name is Required'
+                                    },
+                                    pattern: {
+                                        value: /^[a-zA-Z,'.\-\s]+$/,
+                                        message: 'Please Input Valid Name'
+                                    },
+
+
+                                })
+                                }
+                            />
+                            <label class="label">
+                                {errors.name?.type === 'required' && <span class="label-text-alt text-red-500">{errors.name.message}</span>}
+                                {errors.name?.type === 'pattern' && <span class="label-text-alt text-red-500">{errors.name.message}</span>}
+                            </label>
+                        </div>
+
+
+                        <div>
+                            <label className='text-gray-600 mb-2 block'>Address <span className='text-red-600'>*</span> </label>
+                            <input type="text" className='block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400' placeholder='Enter your Address'
+                                {
+                                ...register('address', {
+                                    required: {
+                                        value: true,
+                                        message: 'Address is Required'
+                                    }
+
+                                })
+                                }
+                            />
+                            <label class="label">
+                                {errors.address?.type === 'required' && <span class="label-text-alt text-red-500">{errors.address.message}</span>}
+                                {errors.address?.type === 'pattern' && <span class="label-text-alt text-red-500">{errors.address.message}</span>}
+                            </label>
+                        </div>
+
+                        <div>
+                            <label className='text-gray-600 mb-2 block'>District <span className='text-red-600'>*</span> </label>
+                            <input type="text" className='block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400'
+                                {
+                                ...register('district', {
+                                    required: {
+                                        value: true,
+                                        message: 'Address is Required'
+                                    }
+
+                                })
+                                }
+                            />
+                            <label class="label">
+                                {errors.district?.type === 'required' && <span class="label-text-alt text-red-500">{errors.district.message}</span>}
+                                {errors.district?.type === 'pattern' && <span class="label-text-alt text-red-500">{errors.district.message}</span>}
+                            </label>
+                        </div>
+
+
+                        <div>
+                            <label className='text-gray-600 mb-2 block'>Phone Number <span className='text-red-600'>*</span> </label>
+                            <input type="number" className='block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400'
+                                {
+                                ...register('phonenumber', {
+                                    required: {
+                                        value: true,
+                                        message: 'Phone Number is Required'
+                                    }
+
+                                })
+                                }
+                            />
+                            <label class="label">
+                                {errors.phonenumber?.type === 'required' && <span class="label-text-alt text-red-500">{errors.phonenumber.message}</span>}
+                                {errors.phonenumber?.type === 'pattern' && <span class="label-text-alt text-red-500">{errors.phonenumber.message}</span>}
+                            </label>
+                        </div>
+                        <div>
+                            <label className='text-gray-600 mb-2 block'>Email <span className='text-red-600'>*</span> </label>
+                            <input type="email" className='block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400'
+                                {
+                                ...register('email', {
+                                    required: {
+                                        value: true,
+                                        message: 'Email is Required'
+                                    },
+                                    pattern: {
+                                        value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                                        message: 'Please Input Valid Email'
+                                    }
+
+                                })
+                                }
+                            />
+                            <label class="label">
+                                {errors.email?.type === 'required' && <span class="label-text-alt text-red-500">{errors.email.message}</span>}
+                                {errors.email?.type === 'pattern' && <span class="label-text-alt text-red-500">{errors.email.message}</span>}
+                            </label>
+                        </div>
                     </div>
-                    <div>
-                        <label className="text-gray-600 mb-2 block">Company Name <span className="text-primary">*</span></label>
-                        <input type="text" className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
-                    </div>
-                    <div>
-                        <label className="text-gray-600 mb-2 block">Country <span className="text-primary">*</span></label>
-                        <input type="text" className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
-                    </div>
-                    <div>
-                        <label className="text-gray-600 mb-2 block">Street Address <span className="text-primary">*</span></label>
-                        <input type="text" className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
-                    </div>
-                    <div>
-                        <label className="text-gray-600 mb-2 block">City <span className="text-primary">*</span></label>
-                        <input type="text" className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
-                    </div>
-                    <div>
-                        <label className="text-gray-600 mb-2 block">Zip Code <span className="text-primary">*</span></label>
-                        <input type="text" className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
-                    </div>
-                    <div>
-                        <label className="text-gray-600 mb-2 block">Phone Number <span className="text-primary">*</span></label>
-                        <input type="text" className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
-                    </div>
-                    <div>
-                        <label className="text-gray-600 mb-2 block">Email Address <span className="text-primary">*</span></label>
-                        <input type="text" className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
-                    </div>
-                </div>
+                </form>
             </div>
 
             {/* checkout total item start  */}
@@ -44,56 +197,28 @@ const Checkout = () => {
                 <h3 className="text-lg font-medium capitalize mb-4 bg-[#E9E4E4] p-4 text-gray-600 rounded w-full">Your Orders</h3>
                 <h4 className="text-gray-800 text-lg mb-4 font-medium uppercase">order summery</h4>
                 <div className="  space-y-2 divide-y-2">
-                    <div className="flex justify-between pt-2">
-                        <div>
-                            <h5 className="text-gray-800 font-medium">Italian Shape Sofa</h5>
-                            <p className="text-sm text-gray-600">Size: M</p>
-                        </div>
-                        <p className="text-gray-600">
-                            x3
-                        </p>
-                        <p className="text-gray-800 font-medium">$320</p>
-                    </div>
-                    <div className="flex justify-between pt-2">
-                        <div>
-                            <h5 className="text-gray-800 font-medium">Italian Shape Sofa</h5>
-                            <p className="text-sm text-gray-600">Size: M</p>
-                        </div>
-                        <p className="text-gray-600">
-                            x3
-                        </p>
-                        <p className="text-gray-800 font-medium">$320</p>
-                    </div>
-                    <div className="flex justify-between pt-2">
-                        <div>
-                            <h5 className="text-gray-800 font-medium">Italian Shape Sofa</h5>
-                            <p className="text-sm text-gray-600">Size: M</p>
-                        </div>
-                        <p className="text-gray-600">
-                            x3
-                        </p>
-                        <p className="text-gray-800 font-medium">$320</p>
-                    </div>
+                    {
+                        cartProducts.map((products) => (
+                            <div className="flex justify-between pt-2 space-x-7">
+                                <div>
+                                    <h5 className="text-gray-800 font-normal">{products?.product_name}</h5>
+                                </div>
+                                <p className="text-gray-600">
+                                    x{products?.quantity}
+                                </p>
+                                <p className="text-gray-800 font-medium">${products?.price}</p>
+                            </div>
+                        ))
+                    }
 
                     <div>
                         {/* Total and Subtotal Section Start  */}
-                        <div className="flex justify-between border-b border-gray-200 font-medium py-3 uppercase ">
-                            <p>Subtotal</p>
-                            <p>$320</p>
-                        </div>
-                        <div className="flex justify-between border-b border-gray-200 font-medium py-3 uppercase">
-                            <p>Shipping</p>
-                            <p>Free</p>
-                        </div>
                         <div className="flex justify-between text-gray-800 font-medium py-3 uppercase">
                             <p className="font-semibold">Total</p>
-                            <p>$320</p>
+                            <p>${subTotalPrice}</p>
                         </div>
-                        <div className="flex items-center mb-4 mt-2">
-                            <input type="checkbox" id="agreement" className="border border-red-600 focus:ring-0 rounded-sm cursor-pointer w-3 h-3" />
-                            <label htmlFor="agreement" className="text-gray-600 ml-3 cursor-pointer text-sm">Agree to our <span className="text-primary">Terms and Condition</span></label>
-                        </div>
-                        <button className="w-full border border-primary px-8 py-2 bg-primary text-white rounded  hover:bg-transparent hover:text-primary transition">Checkout</button>
+
+                        <button onClick={handleSubmit(onSubmit)} className="w-full border border-primary px-8 py-2 bg-primary disabled:bg-red-400 disabled:hover:text-white text-white rounded  hover:bg-transparent hover:text-primary transition " disabled={isInactive}>Checkout</button>
                     </div>
                     {/* Total and Subtotal Section End  */}
 

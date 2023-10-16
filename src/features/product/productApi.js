@@ -6,7 +6,7 @@ export const productApi = apiSlice.injectEndpoints({
             query: () => '/products'
         }),
         getProduct: builder.query({
-            query: (id) => `/product/${id}`
+            query: (id) => `/products/${id}`
         }),
         addProduct: builder.mutation({
             query: (data) => ({
@@ -17,4 +17,4 @@ export const productApi = apiSlice.injectEndpoints({
         })
     })
 })
-export const { useGetProductQuery, useGetProductsQuery,useAddProductMutation } = productApi;
+export const { useGetProductQuery, useGetProductsQuery, useAddProductMutation } = productApi;

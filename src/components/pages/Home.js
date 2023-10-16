@@ -1,5 +1,3 @@
-import React from 'react';
-import AdvBanner from '../Home/AdvBanner';
 import Categories from '../Home/Categories';
 import DownloadApp from '../Home/DownloadApp';
 import Features from '../Home/Features';
@@ -8,15 +6,15 @@ import TopNewArrival from '../Home/TopNewArrival';
 import TopRanking from '../Home/TopRanking';
 
 const Home = () => {
+
     return (
         <div>
-            
-            <ProductCarousel/>
-            <Features/>
-            <Categories/>
-            <TopRanking/>
-            <TopNewArrival/>
-            <DownloadApp/>
+            <ProductCarousel />
+            <Features />
+            <Categories />
+            <TopRanking />
+            <TopNewArrival />
+            <DownloadApp />
         </div>
     );
 };

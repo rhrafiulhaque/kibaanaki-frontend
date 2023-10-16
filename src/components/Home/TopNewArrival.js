@@ -1,22 +1,23 @@
-import React from 'react';
 import Product from './Product';
 
-import Loading from '../Loading/Loading';
 import { useGetProductsQuery } from '../../features/product/productApi';
+import Loading from '../Loading/Loading';
 
 const TopNewArrival = () => {
-    const {data:products, isLoading, isError, error} = useGetProductsQuery();
-    let content=null;
-    if(isLoading){
-        content = <Loading/>
+    const { data: allProducts, isLoading, isError, error } = useGetProductsQuery();
+    const { products } = allProducts || {};
+
+    let content = null;
+    if (isLoading) {
+        content = <Loading />
     }
-    if(!isLoading && isError){
+    if (!isLoading && isError) {
         content = <p className='text-red-500'>{error}</p>
     }
-    if(!isLoading && !isError && products.length>0){
-        content = products.map((product)=><Product key={product.id} product={product}/>)
+    if (!isLoading && !isError && products.length > 0) {
+        content = products.map((product) => <Product key={product.id} product={product} />)
     }
-    if(!isLoading && !isError && products.length===0){
+    if (!isLoading && !isError && products.length === 0) {
         content = <p className='text-red-500'>There have no Products</p>
     }
 

@@ -1,38 +1,39 @@
-import React from 'react';
-import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { useUpdateProfile } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import { useUserRegisterMutation } from '../../features/auth/authApi';
 import auth from '../../firebase.init';
 import Loading from '../Loading/Loading';
-import { useUserRegisterMutation } from '../../features/auth/authApi';
 
 const RegisterForm = () => {
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-    const [ createUserWithEmailAndPassword,user,loading, error,] = useCreateUserWithEmailAndPassword(auth);
+    const [createUserWithEmailAndPassword, user, loading, error,] = useCreateUserWithEmailAndPassword(auth);
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
     const [userRegister] = useUserRegisterMutation();
     const navigate = useNavigate();
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const onSubmit = async (data)=>{
-        const {name,email,password}=data;
-        await createUserWithEmailAndPassword(email,password);
-        await updateProfile({displayName:name});
-        await userRegister(data);
-    } 
-
-    let signInError = '';
-    if (gError||updateError||error) {
-        signInError = <p className='text-red-500'>{gError?.message || updateError?.message|| error?.message}</p>
-        
+    const onSubmit = async (data) => {
+        const { name, email, password } = data;
+        const submittedData = {
+            name, email, password, role: 'User'
+        }
+        await createUserWithEmailAndPassword(email, password);
+        await updateProfile({ displayName: name });
+        await userRegister(submittedData);
     }
 
-    if (gLoading||updating||loading) {
+    let signInError = '';
+    if (gError || updateError || error) {
+        signInError = <p className='text-red-500'>{gError?.message || updateError?.message || error?.message}</p>
+
+    }
+
+    if (gLoading || updating || loading) {
         return <Loading />
     }
 
-    if (gUser||user) {
+    if (gUser || user) {
         navigate('/')
     }
 
