@@ -12,6 +12,9 @@ export const orderApi = apiSlice.injectEndpoints({
         getOrderList: (builder).query({
             query: (email) => `/order/getorderlist/${email}`
         }),
+        getOrderDetails: (builder).query({
+            query: ({ id, email }) => `/order/getorderdetails?id=${id}&email=${email}`
+        }),
     })
 })
-export const { useAddOrderMutation, useGetOrderListQuery } = orderApi;
+export const { useAddOrderMutation, useGetOrderListQuery, useGetOrderDetailsQuery } = orderApi;

@@ -4,8 +4,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import AddProduct from './Dashboard/AdminDashboard/AddProduct';
 import AdminDashboard from './Dashboard/AdminDashboard/AdminDashboard';
-import UserAccount from './Dashboard/UserDashboard/UserAccount';
 import UserAddress from './Dashboard/UserDashboard/UserAddress';
+import UserDashboard from './Dashboard/UserDashboard/UserDashboard';
 import UserProfile from './Dashboard/UserDashboard/UserProfile';
 import useAuthCheck from './Hooks/useAuthCheck';
 import RequireAdmin from './Utilities/RequireAdmin';
@@ -19,6 +19,7 @@ import AdminLoginForm from './components/Login/AdminLogin/AdminLoginForm';
 import ComingSoon from './components/NotFound/ComingSoon';
 import NotFound from './components/NotFound/NotFound';
 import OrderComplete from './components/Orders/OrderComplete';
+import OrderDetails from './components/Orders/OrderDetails';
 import OrderList from './components/Orders/OrderList';
 import ProductList from './components/ProductList/ProductList';
 import ShoppingCart from './components/ShoppingCart/ShoppingCart';
@@ -42,7 +43,6 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/useraccount' element={<UserAccount />} />
           <Route path='/profile/:email' element={<RequireAuth>
             <UserProfile />
           </RequireAuth>} />
@@ -51,6 +51,12 @@ function App() {
           </RequireAuth>} />
           <Route path='/getorderlist/' element={<RequireAuth>
             <OrderList />
+          </RequireAuth>} />
+          <Route path='/userdashboard/:email' element={<RequireAuth>
+            <UserDashboard />
+          </RequireAuth>} />
+          <Route path='/getorderdetails/:id' element={<RequireAuth>
+            <OrderDetails />
           </RequireAuth>} />
           <Route path='/checkout' element={<RequireAuth><Checkout /></RequireAuth>} />
           <Route path='/payment-success' element={<RequireAuth><OrderComplete /></RequireAuth>} />

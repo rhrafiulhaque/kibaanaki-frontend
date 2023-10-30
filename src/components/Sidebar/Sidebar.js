@@ -28,8 +28,29 @@ const Sidebar = () => {
             </div>
             {/* account profile End */}
 
+
+
+
             {/* Profile Link Start  */}
             <div className='mt-6 bg-white shadow rounded p-4 divide-y divide-gray-200 space-y-4 text-gray-600'>
+
+
+                {/* single link start  */}
+                <div className='space-y-1 pl-8 pt-5'>
+                    <p className='relative text-primary block font-medium capitalize' >
+                        <span className=' absolute -left-8 top-0 text-base'>
+                            <FontAwesomeIcon icon={faAddressCard} />
+                        </span>
+                        My Dashboard
+                    </p>
+                    <Link to={`/userdashboard/${user?.email}`} className='relative hover:text-primary block capitalize transition'> Dashboard</Link>
+                </div>
+                {/* single link end  */}
+
+
+
+
+
                 {/* single link start  */}
                 <div className='space-y-1 pl-8'>
                     <p className='relative text-primary block font-medium capitalize' >
@@ -55,17 +76,11 @@ const Sidebar = () => {
                     <Link to={'/'} className='relative hover:text-primary block capitalize transition'> My Reviews</Link>
                 </div>
                 {/* single link end  */}
-                {/* single link start  */}
-                <div className='space-y-1 pl-8 pt-5'>
-                    <a href="" className='relative text-primary block font-medium capitalize' >
-                        <span className=' absolute -left-8 top-0 text-base'>
-                            <FontAwesomeIcon icon={faAddressCard} />
-                        </span>
-                        My Cart History
-                    </a>
-                    <a href="" className='relative hover:text-primary block capitalize transition'> Cart List</a>
-                </div>
-                {/* single link end  */}
+
+
+
+
+
                 {/* single link start  */}
                 <div className='space-y-1 pl-8 pt-5'>
                     <Link href="" className='relative text-gray-800 block font-medium capitalize' onClick={logout} >

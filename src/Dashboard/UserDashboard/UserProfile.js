@@ -11,7 +11,7 @@ const UserProfile = () => {
     const { email } = useParams();
     const { data: userDetails, isLoading, isError } = useGetUserQuery(email);
     const [updateUser, { isSuccess }] = useUpdateUserMutation();
-
+    console.log(userDetails?.user)
     if (isLoading) {
         return <Loading />
     }
@@ -27,7 +27,6 @@ const UserProfile = () => {
             email: e.target.email.value
         }
         updateUser(data)
-        console.log(isSuccess)
         if (isSuccess) {
             toast.success(`User Update Successfully`, {
                 position: "top-center",
@@ -55,7 +54,12 @@ const UserProfile = () => {
                         <div className='grid grid-cols-2 gap-6'>
                             <div>
                                 <label className="text-gray-600 mb-2 block required">Birth Date <span className="text-primary">*</span></label>
-                                <input type="date" defaultValue={userDetails?.user?.dateofbirth} name='birthdate' className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
+                                <input
+                                    type="date"
+                                    defaultValue={new Date(userDetails?.user?.birthDate).toISOString().substr(0, 10)} // Convert to ISO 8601 format
+                                    name='birthdate'
+                                    className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0"
+                                />
                             </div>
                             <div>
                                 <label className="text-gray-600 mb-2 block">Gender <span className="text-primary">*</span></label>

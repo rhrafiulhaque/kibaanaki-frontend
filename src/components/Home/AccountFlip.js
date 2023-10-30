@@ -24,7 +24,7 @@ const AccountFlip = () => {
             <div class="py-1" role="none">
                 {
                     (user && !admin) && <>
-                        <Link class="text-gray-700 block px-4 py-2 text-sm hover:text-primary transition" to={`/profile/${user?.email}`} role="menuitem" tabindex="-1" id="menu-item-0">My Profile </Link>
+                        <Link class="text-gray-700 block px-4 py-2 text-sm hover:text-primary transition" to={`/userdashboard/${user?.email}`} role="menuitem" tabindex="-1" id="menu-item-0">My Profile </Link>
                         <Link class="text-gray-700 block px-4 py-2 text-sm hover:text-primary transition" to={'/cart'} role="menuitem" tabindex="-1" id="menu-item-1">My Cart</Link>
                     </>
                 }

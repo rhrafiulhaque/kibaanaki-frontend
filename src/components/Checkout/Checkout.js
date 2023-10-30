@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -18,30 +19,21 @@ const Checkout = () => {
     }, 0);
     const user = useSelector((state) => state.auth.userDetails);
     const { data: userDetails, isLoading, isError } = useGetUserQuery(user.email);
-
-
-    console.log(isLoading)
-    console.log(userDetails?.user)
     const [addOrder] = useAddOrderMutation()
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({
-        defaultValues: {
-            name: userDetails.user.name,
-            address: userDetails.user.address,
-            district: userDetails.user.district,
-            phonenumber: userDetails.user.phonenumber,
-            email: userDetails.user.email,
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+    useEffect(() => {
+        if (userDetails) {
+            setValue("name", userDetails.user.name || "");
+            setValue("address", userDetails.user.address || "");
+            setValue("district", userDetails.user.district || "");
+            setValue("phonenumber", userDetails.user.phonenumber || "");
+            setValue("email", userDetails.user.email || "");
         }
-    });
-    const watchFields = watch(["name", "address", "district", "phonenumber", "email"])
-    let isInactive = true;
-    isInactive = watchFields.includes('');
+    }, [userDetails, setValue]);
 
-
-    if (isLoading && !userDetails) {
+    if (isLoading) {
         return <Loading />
     }
-
-
 
 
     const onSubmit = async (data) => {
@@ -86,7 +78,7 @@ const Checkout = () => {
                     <div className="space-y-4">
                         <div>
                             <label className='text-gray-600 mb-2 block'>Name <span className='text-red-600'>*</span> </label>
-                            <input type="text" defaultValue={userDetails.name} className='block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400' placeholder='Enter your Full Name'
+                            <input type="text" className='block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400' placeholder='Enter your Full Name'
                                 {
                                 ...register('name', {
                                     required: {
@@ -218,7 +210,7 @@ const Checkout = () => {
                             <p>${subTotalPrice}</p>
                         </div>
 
-                        <button onClick={handleSubmit(onSubmit)} className="w-full border border-primary px-8 py-2 bg-primary disabled:bg-red-400 disabled:hover:text-white text-white rounded  hover:bg-transparent hover:text-primary transition " disabled={isInactive}>Checkout</button>
+                        <button onClick={handleSubmit(onSubmit)} className="w-full border border-primary px-8 py-2 bg-primary disabled:bg-red-400 disabled:hover:text-white text-white rounded  hover:bg-transparent hover:text-primary transition ">Checkout</button>
                     </div>
                     {/* Total and Subtotal Section End  */}
 
