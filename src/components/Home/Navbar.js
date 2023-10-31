@@ -1,11 +1,10 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faChair, faBed, faPhone, faShirt } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBed, faChair, faPhone, faShirt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     return (
-        <nav className='bg-gray-800'>
+        <nav className='bg-gray-800 lg:block hidden'>
             <div className='container flex '>
                 <div className=' text-white px-8 py-4 bg-primary flex items-center justify-center cursor-pointer relative group'>
                     <span className=''>

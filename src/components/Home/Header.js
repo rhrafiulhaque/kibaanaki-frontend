@@ -17,13 +17,8 @@ const Header = () => {
         setFlip(!flip);
     }
 
-
-
-    // if (userLoading) {
-    //     return <Loading />
-    // }
     return (
-        <header className='py-4 shadow-sm bg-white lg:visible  '>
+        <header className='py-4 shadow-sm bg-white lg:block hidden '>
             <div className='container flex justify-between items-center '>
                 <Link to={'/'} className=' uppercase font-semibold text-2xl'>Kinbaa<span className=' text-primary'>Naki?</span></Link>
                 <div className='w-full max-w-xl relative flex'>
