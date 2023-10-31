@@ -6,7 +6,6 @@ import Loading from '../Loading/Loading';
 
 const OrderList = () => {
     const user = useSelector((state) => state.auth.userDetails);
-    console.log('user email ', user.email)
     const { data: orderList, isLoading } = useGetOrderListQuery(user.email)
 
     if (isLoading) {
@@ -16,7 +15,6 @@ const OrderList = () => {
         return <p>No orders found.</p>;
     }
 
-    console.log(orderList)
     return (
         <DashboardLayout>
             <div className='col-span-9'>
