@@ -18,7 +18,7 @@ export const authApi = apiSlice.injectEndpoints({
         }),
 
         getAdmin: (builder).query({
-            query: (email) => `/admin/${email}`
+            query: (email) => `/user/admin/${email}`
         }),
         getUser: (builder).query({
             query: (email) => `/user/get-user/${email}`,
@@ -40,7 +40,10 @@ export const authApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["getUser"]
         }),
+        getAllUser: (builder).query({
+            query: () => `/user/admin/getalluser/`,
+        }),
     })
 })
 
-export const { useUserLoginMutation, useUserRegisterMutation, useGetAdminQuery, useGetUserQuery, useUpdateUserMutation, useUpdateUserAddressMutation } = authApi;
+export const { useUserLoginMutation, useUserRegisterMutation, useGetAdminQuery, useGetUserQuery, useUpdateUserMutation, useUpdateUserAddressMutation, useGetAllUserQuery } = authApi;

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import AdminDashboardLayout from '../AdminDashboardLayout';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useAddProductMutation } from '../../features/product/productApi';
 import { toast } from 'react-toastify';
+import Loading from '../../components/Loading/Loading';
+import { useAddProductMutation } from '../../features/product/productApi';
 import { storage } from '../../firebase.init';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import AdminDashboardLayout from '../AdminDashboardLayout';
 
 
 
@@ -24,6 +25,7 @@ const AddProduct = () => {
     const [imagePreview, setImagePreview] = useState(null);
 
     const [addProduct, { isLoading, isError, isSuccess }] = useAddProductMutation();
+
 
     const handleSize = (e) => {
         const size = e.target.value;
@@ -94,11 +96,19 @@ const AddProduct = () => {
                 description,
                 imageThree,
                 imageUrl
-            })            
+            })
+
+
+        }
+        if (isSuccess) {
             toast.success('Product Uploaded Successfullly ')
         }
         resetForm();
-    }, [imageUrl]);
+    }, [imageUrl, isSuccess]);
+
+    if (isLoading) {
+        return <Loading />
+    }
 
     return (
         <AdminDashboardLayout>
@@ -141,7 +151,7 @@ const AddProduct = () => {
 
                         {/* Image Preview  */}
                         {imagePreview && <div className='flex-shrink-0'>
-                            
+
                             <img src={imagePreview} className="h-48 object-contain" alt="product_image" />
                         </div>}
 

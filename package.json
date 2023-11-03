@@ -12,6 +12,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "autoprefixer": "^10.4.13",
+    "chart.js": "^4.4.0",
     "firebase": "^9.21.0",
     "font-awesome": "^4.7.0",
     "jsonwebtoken": "^9.0.2",
@@ -26,6 +27,7 @@
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.1",
+    "recharts": "^2.9.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -2,12 +2,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import useAdmin from '../../Hooks/useAdmin';
 import { removeAuth } from '../../features/auth/authSlice';
+import Loading from '../Loading/Loading';
 
 const AccountFlip = () => {
     const navigate = useNavigate();
-    const user = useSelector((state) => state.auth.userDetails);
-    const [admin] = useAdmin(user?.email);
     const dispatch = useDispatch()
+    const user = useSelector((state) => state.auth.userDetails);
+    const [admin, adminLoading] = useAdmin(user ? user.email : null);
+
+    if (adminLoading) {
+        return <Loading />
+    }
+
     // if (admin) {
     //     console.log("He is admin");
     // } else {
@@ -30,7 +36,7 @@ const AccountFlip = () => {
                 }
                 {
                     admin && <>
-                        <Link class="text-gray-700 block px-4 py-2 text-sm hover:text-primary transition" to={'/admin/dashboard'} role="menuitem" tabindex="-1" id="menu-item-0">My Profile </Link>
+                        <Link class="text-gray-700 block px-4 py-2 text-sm hover:text-primary transition" to={'/admin/dashboard'} role="menuitem" tabindex="-1" id="menu-item-0">My Profiles </Link>
                         <Link class="text-gray-700 block px-4 py-2 text-sm hover:text-primary transition" to={'/cart'} role="menuitem" tabindex="-1" id="menu-item-1">My Cart</Link>
                     </>
                 }

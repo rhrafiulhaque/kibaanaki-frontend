@@ -1,24 +1,33 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import DashboardLayout from '../../Dashboard/DashboardLayout';
-import { useGetOrderListQuery } from '../../features/order/orderApi';
-import Loading from '../Loading/Loading';
+import Loading from '../../components/Loading/Loading';
+import { useAdminGetOrderListQuery, useUpdateDeliveryStatusMutation } from '../../features/order/orderApi';
+import AdminDashboardLayout from '../AdminDashboardLayout';
 
-const OrderList = () => {
+const AllOrderList = () => {
     const user = useSelector((state) => state.auth.userDetails);
-    const { data: orderList, isLoading } = useGetOrderListQuery(user.email)
 
-    if (isLoading) {
+    const { data: orderList, isLoading } = useAdminGetOrderListQuery()
+    const [updateDeliveryStatus, { isLoading: updateLoading }] = useUpdateDeliveryStatusMutation()
+
+    if (isLoading || updateLoading) {
         return <Loading />
     }
     if (!orderList || orderList.length === 0) {
         return <p>No orders found.</p>;
     }
 
-    return (
-        <DashboardLayout>
-            <div className='col-span-9'>
+    const changeDeliveryStatus = (e, user) => {
+        const deliveryStatus = e.target.value;
+        const id = user._id
+        const email = user.email
+        updateDeliveryStatus({ deliveryStatus, email, id })
+    }
 
+    return (
+        <AdminDashboardLayout>
+            <div className='col-span-9'>
+                <h1 className='text-center font-bold py-8 text-4xl border-gray-200 border-2 text-gray-700 whitespace-nowrap'>Order List</h1>
                 {
                     orderList.data.map((order) => (
 
@@ -36,6 +45,7 @@ const OrderList = () => {
                             <thead className="text-md text-gray-700  bg-gray-50">
                                 <tr>
                                     <th className="px-2 py-3">Order Number</th>
+                                    <th className="px-2 py-3">User Email</th>
                                     <th className="px-2 py-3">Purchased</th>
                                     <th className="px-2 py-3">Quanity</th>
                                     <th className="px-2 py-3">Total</th>
@@ -46,6 +56,7 @@ const OrderList = () => {
                             <tbody>
                                 <tr>
                                     <td className="px-3 py-3">{order._id} </td>
+                                    <td className="px-3 py-3">{order.email} </td>
                                     <td className="px-3 py-3">{new Date(order.createdAt).toLocaleDateString('en-US', {
                                         day: 'numeric',
                                         month: 'long',
@@ -54,17 +65,20 @@ const OrderList = () => {
                                     <td className="px-3 py-3">x{order.products.reduce((acc, product) => acc + product.quantity, 0)} </td>
                                     <td className="px-3 py-3">${order.products.reduce((acc, product) => acc + product.price * product.quantity, 0)} </td>
                                     <td className="px-3 py-3">{order.paidStatus === true ? 'Paid' : 'Unpaid'} </td>
-                                    <td className="px-3 py-3">{order.deliveryStatus} </td>
+                                    <td className="">
+                                        <select name="dlvsts" onChange={(e) => changeDeliveryStatus(e, order)} className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0">
+                                            <option selected={order.deliveryStatus === 'Processing'} value="Processing">Processing</option>
+                                            <option selected={order.deliveryStatus === 'OnTheWay'} value="OnTheWay" >On the Way</option>
+                                            <option selected={order.deliveryStatus === 'Delivered'} value="Delivered">Delivered</option>
+                                        </select> </td>
                                 </tr>
                             </tbody>
                         </div>
                     ))
                 }
-
-
             </div>
-        </DashboardLayout>
+        </AdminDashboardLayout>
     );
 };
 
-export default OrderList;
+export default AllOrderList;

@@ -8,7 +8,6 @@ import DashboardLayout from "../DashboardLayout";
 const UserDashboard = () => {
     const user = useSelector((state) => state.auth.userDetails);
     const { data: orderList, isLoading } = useGetOrderListQuery(user.email)
-    console.log(orderList?.data)
     if (isLoading) {
         return <Loading />
     }

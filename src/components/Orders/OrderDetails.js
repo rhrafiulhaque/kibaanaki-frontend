@@ -86,7 +86,7 @@ const OrderDetails = () => {
                                 </h1>
                             </div>
                             <h1>Qty :{product.quantity}</h1>
-                            <h1>${product.price}</h1>
+                            <h1>${product.price * product.quantity}</h1>
                         </div>
                     ))}
 

@@ -1,18 +1,11 @@
+import { faArrowDown, faArrowLeft, faBoxOpen, faChartBar, faComment, faPeopleGroup, faPowerOff, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
-import avatar from '../../img/avatar.png'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { faChartBar } from '@fortawesome/free-solid-svg-icons';
-import { faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
-import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
-import { faPowerOff } from '@fortawesome/free-solid-svg-icons';
-import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
-import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
-import { faComment } from '@fortawesome/free-solid-svg-icons';
-import { NavLink, Navigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
-import auth from '../../firebase.init';
+import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { Link, NavLink, Navigate } from 'react-router-dom';
+import auth from '../../firebase.init';
+import avatar from '../../img/avatar.png';
 
 const AdminSidebar = () => {
     const [user] = useAuthState(auth);
@@ -89,16 +82,16 @@ const AdminSidebar = () => {
                 <div className='py-2 px-4 rounded block w-full hover:bg-slate-400 hover:text-white transition duration-300'>
                     <div className='flex gap-x-4 font-medium capitalize cursor-pointer'>
                         <span className=' text-base'><FontAwesomeIcon icon={faPeopleGroup} /></span>
-                        <span className={`flex-1 duration-300 ${!open && 'scale-0'}`}>Customer</span>
+                        <Link to={'/admin/userlist'} className={`flex-1 duration-300 ${!open && 'scale-0'}`}>Customer</Link>
                     </div>
                 </div>
 
 
                 <div className='py-2 px-4 rounded block w-full hover:bg-slate-400 hover:text-white transition duration-300'>
-                    <div className='flex gap-x-4 font-medium capitalize cursor-pointer'>
+                    <Link to={'/admin/orderlist'} className='flex gap-x-4 font-medium capitalize cursor-pointer'>
                         <span className=' text-base'><FontAwesomeIcon icon={faBoxOpen} /></span>
                         <span className={`flex-1 duration-300 ${!open && 'scale-0'}`}>Order</span>
-                    </div>
+                    </Link>
                 </div>
                 <div className='py-2 px-4 rounded block w-full hover:bg-slate-400 hover:text-white transition duration-300'>
                     <div className='flex gap-x-4 font-medium capitalize cursor-pointer'>

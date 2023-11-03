@@ -8,25 +8,25 @@ import { addCart } from '../../features/cart/cartSlice';
 import RelatedProducts from './RelatedProducts';
 
 const ProductDetails = ({ product }) => {
-    const { _id, product_name, price, old_price, brand, model, description, color, img, imgThree, availibility, category, ratings = 0, size } = product;
+    const { _id, productName, price, old_price, brand, model, description, color, imageUrl, imgThree, availibility, category, ratings = 0, size } = product;
     const [quantity, setQuantity] = useState(1);
 
     const dispatch = useDispatch();
 
-    const handleAddToCart = (_id, product_name, quantity, price, img) => {
-        dispatch(addCart({ _id, product_name, price, quantity, img }));
-        toast.success(`${product_name} added to cart`)
+    const handleAddToCart = (_id, productName, quantity, price, img) => {
+        dispatch(addCart({ _id, productName, price, quantity, img }));
+        toast.success(`${productName} added to cart`)
     }
     return (
         <div className='container'>
             <div className=' grid grid-cols-2 gap-6 mt-10'>
-                {imgThree ? <div className={`w-full c-viewer `}><iframe title="chair" className="c-viewer__iframe" src={imgThree} ></iframe></div> : <div className={`w-full`}> <img src={img} className="object-fill" alt='' /></div>}
+                {imgThree ? <div className={`w-full c-viewer `}><iframe title="chair" className="c-viewer__iframe" src={imgThree} ></iframe></div> : <div className={`w-full`}> <img src={imageUrl} className="object-fill" alt='' /></div>}
 
 
 
 
                 <div className='space-y-2'>
-                    <h1 className='uppercase text-2xl font-medium'>{product_name}</h1>
+                    <h1 className='uppercase text-2xl font-medium'>{productName}</h1>
                     <div className='flex items-center space-x-2'>
                         <ProductRatings ratings={ratings} />
                         {/* <span className='flex items-center justify-center text-sm text-gray-500'>50 reviews</span> */}
@@ -77,7 +77,7 @@ const ProductDetails = ({ product }) => {
                         {/* Cart and Buythings Start  */}
                         <div className='flex  gap-6'>
                             <button className='text-uppercase px-8 py-3 border border-gray-800 text-gray-800 rounded hover:border-primary hover:text-primary transition'> <FontAwesomeIcon icon={faHeart} />  Buy Now</button>
-                            <button className=' flex justify-center items-center text-uppercase px-8 py-3 border-primary border bg-primary text-white rounded-md hover:bg-white hover:text-primary transition' onClick={() => handleAddToCart(_id, product_name, quantity, price, img)}> <FontAwesomeIcon icon={faCartShopping} className="mr-2" /> Add to Cart</button>
+                            <button className=' flex justify-center items-center text-uppercase px-8 py-3 border-primary border bg-primary text-white rounded-md hover:bg-white hover:text-primary transition' onClick={() => handleAddToCart(_id, productName, quantity, price, imageUrl)}> <FontAwesomeIcon icon={faCartShopping} className="mr-2" /> Add to Cart</button>
 
 
                         </div>

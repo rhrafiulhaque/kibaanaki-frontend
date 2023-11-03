@@ -4,6 +4,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import AddProduct from './Dashboard/AdminDashboard/AddProduct';
 import AdminDashboard from './Dashboard/AdminDashboard/AdminDashboard';
+import AllOrderList from './Dashboard/AdminDashboard/AllOrderList';
+import CustomerList from './Dashboard/AdminDashboard/Customer/CustomerList';
 import UserAddress from './Dashboard/UserDashboard/UserAddress';
 import UserDashboard from './Dashboard/UserDashboard/UserDashboard';
 import UserProfile from './Dashboard/UserDashboard/UserProfile';
@@ -65,6 +67,12 @@ function App() {
           <Route path='/admin' element={<AdminLoginForm />} />
           <Route path='/admin/dashboard' element={<RequireAdmin>
             <AdminDashboard />
+          </RequireAdmin>} />
+          <Route path='/admin/orderlist' element={<RequireAdmin>
+            <AllOrderList />
+          </RequireAdmin>} />
+          <Route path='/admin/userlist' element={<RequireAdmin>
+            <CustomerList />
           </RequireAdmin>} />
           <Route path='/admin/addproduct' element={<RequireAdmin>
             <AddProduct />

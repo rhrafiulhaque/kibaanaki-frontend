@@ -36,19 +36,19 @@ const ShoppingCart = () => {
                                         <td className="px-2 py-3">
                                             <img src={product.img} className="w-20 h-20" alt="" />
                                         </td>
-                                        <td className="px-2 py-3">{product.product_name} </td>
+                                        <td className="px-2 py-3">{product.productName} </td>
                                         <td className="px-2 py-3">
                                             <div className='flex border border-gray-300 divide-x divide-gray-300 w-max'>
-                                                <button className='h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none' onClick={() => product?.quantity > 1 && dispatch(decreaseQuantity(product?.product_name))}>-</button>
+                                                <button className='h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none' onClick={() => product?.quantity > 1 && dispatch(decreaseQuantity(product?.productName))}>-</button>
                                                 <span className='h-8 w-8 text-base flex items-center justify-center cursor-pointer select-none'>{product?.quantity}</span>
-                                                <button className='h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none' onClick={() => dispatch(increaseQuantity(product?.product_name))}>+</button>
+                                                <button className='h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none' onClick={() => dispatch(increaseQuantity(product?.productName))}>+</button>
                                             </div>
                                         </td>
                                         <td className="px-2 py-3">
                                             {product.price * product.quantity}
                                         </td>
                                         <td className="px-2 py-3">
-                                            <FontAwesomeIcon className="cursor-pointer hover:text-primary duration-300" onClick={() => dispatch(removeCart(product.product_name))} icon={faTrash} />
+                                            <FontAwesomeIcon className="cursor-pointer hover:text-primary duration-300" onClick={() => dispatch(removeCart(product.productName))} icon={faTrash} />
                                         </td>
                                     </tr>
                                 ))
