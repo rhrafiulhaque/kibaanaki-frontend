@@ -12,6 +12,8 @@ import UserProfile from './Dashboard/UserDashboard/UserProfile';
 import useAuthCheck from './Hooks/useAuthCheck';
 import RequireAdmin from './Utilities/RequireAdmin';
 import RequireAuth from './Utilities/RequireAuth';
+import AddCategory from './components/Category/AddCategory';
+import CategoryList from './components/Category/CategoryList';
 import Checkout from './components/Checkout/Checkout';
 import Footer from './components/Home/Footer';
 import Header from './components/Home/Header';
@@ -79,6 +81,12 @@ function App() {
           </RequireAdmin>} />
           <Route path='/admin/productlist' element={<RequireAdmin>
             <ProductList />
+          </RequireAdmin>} />
+          <Route path='/admin/addcategory' element={<RequireAdmin>
+            <AddCategory />
+          </RequireAdmin>} />
+          <Route path='/admin/categorylist' element={<RequireAdmin>
+            <CategoryList />
           </RequireAdmin>} />
           <Route path='/test' element={<ProductForm />} />
           <Route path='/sortedproduct' element={<Sorting />} />

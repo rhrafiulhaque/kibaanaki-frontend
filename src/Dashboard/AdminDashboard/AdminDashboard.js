@@ -16,6 +16,20 @@ const data = [
     { name: 'Page D', uv: 320, pv: 2400, amt: 2400 },
 
 ];
+
+const config = {
+    type: 'line',
+    data,
+    options: {
+        scales: {
+            x: {
+                border: {
+                    color: 'red'
+                }
+            }
+        }
+    }
+};
 const AdminDashboard = () => {
     const { data: products, isLoading: productsLoading } = useGetProductsQuery()
     const { data: users, isLoading: userLoading } = useGetAllUserQuery()

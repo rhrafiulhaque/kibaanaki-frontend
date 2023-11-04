@@ -1,20 +1,23 @@
-import { faArrowDown, faArrowLeft, faBoxOpen, faChartBar, faComment, faPeopleGroup, faPowerOff, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown, faArrowLeft, faBarsProgress, faBoxOpen, faChartBar, faComment, faPeopleGroup, faPowerOff, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { signOut } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { Link, NavLink, Navigate } from 'react-router-dom';
-import auth from '../../firebase.init';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { removeAuth } from '../../features/auth/authSlice';
 import avatar from '../../img/avatar.png';
 
 const AdminSidebar = () => {
-    const [user] = useAuthState(auth);
+    const user = useSelector((state) => state.auth.userDetails);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [open, setOpen] = useState(true);
     const logout = () => {
-        signOut(auth);
-        Navigate('/');
+        dispatch(removeAuth())
+        localStorage.removeItem('accessToken');
+        navigate('/');
     };
-    const [flipPrdouct, setFlipProduct] = useState(true);
+    const [flipPrdouct, setFlipProduct] = useState(false);
+    const [flipCategory, setFlipCategory] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -44,7 +47,7 @@ const AdminSidebar = () => {
                 </div>
                 <div className={`flex-grow ${!open && 'scale-0'} duration-300`}>
                     <p className='text-gray-600'>Hello,</p>
-                    <h4 className='text-gray-800 font-medium'>{user?.displayName.toUpperCase()} </h4>
+                    <h4 className='text-gray-800 font-medium'>{user?.name.toUpperCase()} </h4>
                 </div>
             </div>
             {/* account profile End */}
@@ -86,6 +89,19 @@ const AdminSidebar = () => {
                     </div>
                 </div>
 
+
+                <div className='py-2 px-4 rounded block w-full hover:bg-slate-400 hover:text-white transition duration-300'>
+                    <div className='flex gap-x-4 font-medium capitalize cursor-pointer duration-300' onClick={() => setFlipCategory(!flipCategory)}>
+                        <span className=' text-base'><FontAwesomeIcon icon={faBarsProgress} /></span>
+                        <span className={`flex-1 duration-300 ${!open && 'scale-0'}`}>Categories</span>
+                        <span className={`text-base ${!open && 'scale-0'}`}><FontAwesomeIcon icon={faArrowDown} /></span>
+
+                    </div>
+                </div>
+                {(flipCategory && open) && <>
+                    <NavLink to={'/admin/addcategory'} className='relative rounded hover:bg-slate-400 hover:text-white  duration-300 block capitalize py-2 px-2 border-t-gray-400 transition'> Add New Category</NavLink>
+                    <NavLink to={'/admin/categorylist'} className='relative rounded hover:bg-slate-400 hover:text-white  duration-300 block capitalize py-2 px-2  transition'> Category List</NavLink>
+                </>}
 
                 <div className='py-2 px-4 rounded block w-full hover:bg-slate-400 hover:text-white transition duration-300'>
                     <Link to={'/admin/orderlist'} className='flex gap-x-4 font-medium capitalize cursor-pointer'>
