@@ -16,7 +16,25 @@ export const productApi = apiSlice.injectEndpoints({
                 body: data,
             }),
             invalidatesTags: ["productList"]
-        })
+        }),
+        getMonthlyAddOrder: (builder).query({
+            query: () => `/order/monthlyaddproduct`
+        }),
+        deleteProduct: (builder).mutation({
+            query: (id) => ({
+                url: `/products/${id}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['productList']
+        }),
+        updateProduct: builder.mutation({
+            query: (data) => ({
+                url: "/products/updateproduct",
+                method: "PATCH",
+                body: data,
+            }),
+            invalidatesTags: ["productList"]
+        }),
     })
 })
-export const { useGetProductQuery, useGetProductsQuery, useAddProductMutation } = productApi;
+export const { useGetProductQuery, useGetProductsQuery, useAddProductMutation, useGetMonthlyAddOrderQuery, useDeleteProductMutation, useUpdateProductMutation } = productApi;

@@ -18,6 +18,7 @@ const AdminSidebar = () => {
     };
     const [flipPrdouct, setFlipProduct] = useState(false);
     const [flipCategory, setFlipCategory] = useState(false);
+    const [flipBrand, setFlipBrand] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -101,6 +102,20 @@ const AdminSidebar = () => {
                 {(flipCategory && open) && <>
                     <NavLink to={'/admin/addcategory'} className='relative rounded hover:bg-slate-400 hover:text-white  duration-300 block capitalize py-2 px-2 border-t-gray-400 transition'> Add New Category</NavLink>
                     <NavLink to={'/admin/categorylist'} className='relative rounded hover:bg-slate-400 hover:text-white  duration-300 block capitalize py-2 px-2  transition'> Category List</NavLink>
+                </>}
+
+                {/* Brand Toggle  */}
+                <div className='py-2 px-4 rounded block w-full hover:bg-slate-400 hover:text-white transition duration-300'>
+                    <div className='flex gap-x-4 font-medium capitalize cursor-pointer duration-300' onClick={() => setFlipBrand(!flipBrand)}>
+                        <span className=' text-base'><FontAwesomeIcon icon={faBarsProgress} /></span>
+                        <span className={`flex-1 duration-300 ${!open && 'scale-0'}`}>Brand</span>
+                        <span className={`text-base ${!open && 'scale-0'}`}><FontAwesomeIcon icon={faArrowDown} /></span>
+
+                    </div>
+                </div>
+                {(flipBrand && open) && <>
+                    <NavLink to={'/admin/addbrand'} className='relative rounded hover:bg-slate-400 hover:text-white  duration-300 block capitalize py-2 px-2 border-t-gray-400 transition'> Add New Brand</NavLink>
+                    <NavLink to={'/admin/brandlist'} className='relative rounded hover:bg-slate-400 hover:text-white  duration-300 block capitalize py-2 px-2  transition'> Brand List</NavLink>
                 </>}
 
                 <div className='py-2 px-4 rounded block w-full hover:bg-slate-400 hover:text-white transition duration-300'>

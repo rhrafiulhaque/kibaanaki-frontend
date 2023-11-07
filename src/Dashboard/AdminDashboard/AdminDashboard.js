@@ -1,44 +1,58 @@
 import { faBox, faMessage, faMoneyBillTransfer, faMoneyBillTrendUp, faNotesMedical, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { useEffect, useState } from 'react';
+import { Bar, BarChart, CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import Loading from '../../components/Loading/Loading';
 import { useGetAllUserQuery } from '../../features/auth/authApi';
-import { useAdminGetOrderListQuery } from '../../features/order/orderApi';
-import { useGetProductsQuery } from '../../features/product/productApi';
+import { useAdminGetOrderListQuery, useGetMonthlyOrderQuery } from '../../features/order/orderApi';
+import { useGetMonthlyAddOrderQuery, useGetProductsQuery } from '../../features/product/productApi';
 import AdminDashboardLayout from '../AdminDashboardLayout';
 
-
-
-const data = [
-    { name: 'Page A', uv: 400, pv: 2400, amt: 2400 },
-    { name: 'Page B', uv: 300, pv: 2400, amt: 2400 },
-    { name: 'Page C', uv: 150, pv: 2400, amt: 2400 },
-    { name: 'Page D', uv: 320, pv: 2400, amt: 2400 },
-
+const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
 ];
-
-const config = {
-    type: 'line',
-    data,
-    options: {
-        scales: {
-            x: {
-                border: {
-                    color: 'red'
-                }
-            }
-        }
-    }
-};
 const AdminDashboard = () => {
+    const [monthlyOrderData, setMonthlyOrderData] = useState([]);
+    const [monthlyProductCountData, setMonthlyProductCountData] = useState([]);
     const { data: products, isLoading: productsLoading } = useGetProductsQuery()
+    const { data: monthlyOrder, isLoading: monthlyOrderLoading } = useGetMonthlyOrderQuery()
+    const { data: monthlyProductCount, isLoading: monthlyProductCountLoading, error } = useGetMonthlyAddOrderQuery()
     const { data: users, isLoading: userLoading } = useGetAllUserQuery()
     const { data: orders, isLoading: orderLoading } = useAdminGetOrderListQuery()
 
-    if (productsLoading || userLoading || orderLoading) {
+    console.log(monthlyProductCount)
+    console.log(error)
+
+    useEffect(() => {
+        if (!productsLoading && !userLoading && !orderLoading && !monthlyOrderLoading && monthlyOrder) {
+            const dataWithMonthNames = monthlyOrder.map(item => ({
+                month: monthNames[item._id.month - 1],
+                totalOrders: item.totalOrders
+            }));
+            setMonthlyOrderData(dataWithMonthNames);
+        }
+    }, [productsLoading, userLoading, orderLoading, monthlyOrderLoading, monthlyOrder]);
+
+    useEffect(() => {
+        if (!productsLoading && !monthlyProductCountLoading && !monthlyOrderLoading && monthlyProductCount) {
+            const dataWithMonthNames = monthlyProductCount.map(item => ({
+                month: monthNames[item._id.month - 1],
+                productCount: item.productCount
+            }));
+            setMonthlyProductCountData(dataWithMonthNames);
+        }
+    }, [productsLoading, monthlyProductCountLoading, monthlyProductCount, monthlyOrderLoading]);
+
+
+
+    if (productsLoading || userLoading || orderLoading || monthlyOrderLoading || monthlyProductCountLoading) {
         return <Loading />
     }
-    console.log(orders)
+
+
+
+
 
 
     const calculateTotalProductPrice = (products) => {
@@ -108,26 +122,31 @@ const AdminDashboard = () => {
 
 
 
-                <div className='grid grid-cols-2 gap-6'>
-                    <LineChart width={400} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                        <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+                <div className=''>
+                    <h1 className='text-2xl font-semibold my-4'>Monthly Order Chart</h1>
+                    <LineChart width={600} height={300} data={monthlyOrderData}>
                         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                        <XAxis dataKey="name" />
+                        <XAxis dataKey="month" />
                         <YAxis />
                         <Tooltip />
+                        <Line type="monotone" dataKey="totalOrders" stroke="#8884d8" />
                     </LineChart>
-
-
-                    <BarChart width={600} height={350} data={data}>
-                        <XAxis dataKey="name" stroke="#8884d8" />
-                        <YAxis />
-                        <Tooltip wrapperStyle={{ width: 100, backgroundColor: '#ccc' }} />
-                        <Legend width={100} wrapperStyle={{ top: 40, right: 20, backgroundColor: '#f5f5f5', border: '1px solid #d5d5d5', borderRadius: 3, lineHeight: '40px' }} />
-                        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                        <Bar dataKey="uv" fill="#8884d8" barSize={30} />
-                    </BarChart>
-
                 </div>
+
+
+                <div className=''>
+                    <h1 className='text-2xl font-semibold my-4'>Monthly Added Product Chart</h1>
+                    <BarChart width={600} height={300} data={monthlyProductCountData}>
+                        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                        <XAxis dataKey="month" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="productCount" fill="#82ca9d" />
+                    </BarChart>
+                </div>
+
+
+
             </div>
         </AdminDashboardLayout>
 

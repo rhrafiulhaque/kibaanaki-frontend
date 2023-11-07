@@ -1,10 +1,25 @@
+import { faMarker, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import AdminDashboardLayout from '../../Dashboard/AdminDashboardLayout';
-import { useGetProductsQuery } from '../../features/product/productApi';
+import { useDeleteProductMutation, useGetProductsQuery } from '../../features/product/productApi';
 import Loading from '../Loading/Loading';
 
 const ProductList = () => {
     const { data: allProducts, isLoading, isError, error } = useGetProductsQuery();
-    if (isLoading) {
+    const [deleteProduct, { isLoading: deleteProductLoading, isSuccess: deleteProductSuccess, error: deleteProductError }] = useDeleteProductMutation()
+
+
+
+
+    useEffect(() => {
+        if (deleteProductSuccess) {
+            toast.error("Product Deleted");
+        }
+    }, [deleteProductSuccess])
+    if (isLoading || deleteProductLoading) {
         return <Loading />
     }
     return (
@@ -23,6 +38,7 @@ const ProductList = () => {
                             <th className='p-3 text-sm font-semibold tracking-wide text-left'>Price</th>
                             <th className='p-3 text-sm font-semibold tracking-wide text-left'>Category</th>
                             <th className='p-3 text-sm font-semibold tracking-wide text-left'>Color</th>
+                            <th className='p-3 text-sm font-semibold tracking-wide text-left'>Options</th>
                         </tr>
                     </thead>
                     <tbody className='divide-y divide-gray-100'>
@@ -33,10 +49,14 @@ const ProductList = () => {
                                     <th>{i + 1}</th>
                                     <td className='p-3 text-sm text-gray-700 whitespace-nowrap'><img src={product.imageUrl} alt="" /></td>
                                     <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>{product.productName}</td>
-                                    <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>{product.brand}</td>
+                                    <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>{product.brand?.toUpperCase()}</td>
                                     <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>{product.price}</td>
                                     <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>{product.category}</td>
                                     <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>{product.color}</td>
+                                    <td className='p-3 text-sm text-gray-700 whitespace-nowrap gap-4 '>
+                                        <FontAwesomeIcon onClick={() => deleteProduct(product._id)} className='cursor-pointer hover:text-primary duration-300 transition' icon={faTrash} />
+                                        <Link to={`/admin/updateproduct/${product._id}`}><FontAwesomeIcon className='cursor-pointer hover:text-primary ml-5 duration-300 transition' icon={faMarker} /></Link>
+                                    </td>
                                 </tr>
                             ))
                         }

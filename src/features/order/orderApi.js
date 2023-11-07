@@ -27,6 +27,9 @@ export const orderApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["adminGetOrderList"]
         }),
+        getMonthlyOrder: (builder).query({
+            query: () => `/order/monthlyorder`
+        }),
     })
 })
-export const { useAddOrderMutation, useGetOrderListQuery, useGetOrderDetailsQuery, useAdminGetOrderListQuery, useUpdateDeliveryStatusMutation } = orderApi;
+export const { useAddOrderMutation, useGetOrderListQuery, useGetOrderDetailsQuery, useAdminGetOrderListQuery, useUpdateDeliveryStatusMutation, useGetMonthlyOrderQuery } = orderApi;

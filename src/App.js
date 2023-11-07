@@ -6,12 +6,15 @@ import AddProduct from './Dashboard/AdminDashboard/AddProduct';
 import AdminDashboard from './Dashboard/AdminDashboard/AdminDashboard';
 import AllOrderList from './Dashboard/AdminDashboard/AllOrderList';
 import CustomerList from './Dashboard/AdminDashboard/Customer/CustomerList';
+import UpdateProduct from './Dashboard/AdminDashboard/UpdateProduct';
 import UserAddress from './Dashboard/UserDashboard/UserAddress';
 import UserDashboard from './Dashboard/UserDashboard/UserDashboard';
 import UserProfile from './Dashboard/UserDashboard/UserProfile';
 import useAuthCheck from './Hooks/useAuthCheck';
 import RequireAdmin from './Utilities/RequireAdmin';
 import RequireAuth from './Utilities/RequireAuth';
+import AddBrand from './components/Brand/AddBrand';
+import BrandList from './components/Brand/BrandList';
 import AddCategory from './components/Category/AddCategory';
 import CategoryList from './components/Category/CategoryList';
 import Checkout from './components/Checkout/Checkout';
@@ -25,6 +28,7 @@ import NotFound from './components/NotFound/NotFound';
 import OrderComplete from './components/Orders/OrderComplete';
 import OrderDetails from './components/Orders/OrderDetails';
 import OrderList from './components/Orders/OrderList';
+import OrderPdf from './components/Orders/OrderPdf';
 import ProductList from './components/ProductList/ProductList';
 import ShoppingCart from './components/ShoppingCart/ShoppingCart';
 import Home from './components/pages/Home';
@@ -47,6 +51,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/orderpdf' element={<OrderPdf />} />
           <Route path='/profile/:email' element={<RequireAuth>
             <UserProfile />
           </RequireAuth>} />
@@ -87,6 +92,15 @@ function App() {
           </RequireAdmin>} />
           <Route path='/admin/categorylist' element={<RequireAdmin>
             <CategoryList />
+          </RequireAdmin>} />
+          <Route path='/admin/addbrand' element={<RequireAdmin>
+            <AddBrand />
+          </RequireAdmin>} />
+          <Route path='/admin/brandlist' element={<RequireAdmin>
+            <BrandList />
+          </RequireAdmin>} />
+          <Route path='/admin/updateproduct/:id' element={<RequireAdmin>
+            <UpdateProduct />
           </RequireAdmin>} />
           <Route path='/test' element={<ProductForm />} />
           <Route path='/sortedproduct' element={<Sorting />} />
