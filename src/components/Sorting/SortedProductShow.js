@@ -1,7 +1,6 @@
 import { faHeart, faSearch, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import tv from './../../img/tv.png';
-import React from 'react';
 
 const SortedProductShow = () => {
     return (

@@ -110,7 +110,7 @@ const AddProduct = () => {
         resetForm();
     }, [imageUrl, isSuccess]);
 
-    if (isLoading || categoryLoading) {
+    if (isLoading || categoryLoading || brandLoading) {
         return <Loading />
     }
 

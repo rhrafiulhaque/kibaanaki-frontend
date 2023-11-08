@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import Loading from '../../components/Loading/Loading';
 import { useGetUserQuery, useUpdateUserAddressMutation } from '../../features/auth/authApi';
 import DashboardLayout from '../DashboardLayout';
 
@@ -7,7 +9,7 @@ const UserAddress = () => {
 
     const user = useSelector((state) => state.auth.userDetails);
     const { data: userDetails, isLoading, isError } = useGetUserQuery(user.email);
-    const [updateUserAddress, { isSuccess }] = useUpdateUserAddressMutation();
+    const [updateUserAddress, { isSuccess, isLoading: updateLoading }] = useUpdateUserAddressMutation();
     const handleSubmit = async (e) => {
         e.preventDefault()
         const data = {
@@ -17,7 +19,9 @@ const UserAddress = () => {
             email: user.email
         }
         updateUserAddress(data)
+    }
 
+    useEffect(() => {
         if (isSuccess) {
             toast.success(`User Address Update Successfully`, {
                 position: "top-center",
@@ -30,7 +34,10 @@ const UserAddress = () => {
                 theme: "light",
             });
         }
+    }, [isSuccess])
 
+    if (isLoading || updateLoading) {
+        return <Loading />
     }
     return (
         <DashboardLayout>

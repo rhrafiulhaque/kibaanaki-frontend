@@ -37,7 +37,6 @@ const ProductList = () => {
                             <th className='p-3 text-sm font-semibold tracking-wide text-left'>Brand</th>
                             <th className='p-3 text-sm font-semibold tracking-wide text-left'>Price</th>
                             <th className='p-3 text-sm font-semibold tracking-wide text-left'>Category</th>
-                            <th className='p-3 text-sm font-semibold tracking-wide text-left'>Color</th>
                             <th className='p-3 text-sm font-semibold tracking-wide text-left'>Options</th>
                         </tr>
                     </thead>
@@ -52,7 +51,6 @@ const ProductList = () => {
                                     <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>{product.brand?.toUpperCase()}</td>
                                     <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>{product.price}</td>
                                     <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>{product.category}</td>
-                                    <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>{product.color}</td>
                                     <td className='p-3 text-sm text-gray-700 whitespace-nowrap gap-4 '>
                                         <FontAwesomeIcon onClick={() => deleteProduct(product._id)} className='cursor-pointer hover:text-primary duration-300 transition' icon={faTrash} />
                                         <Link to={`/admin/updateproduct/${product._id}`}><FontAwesomeIcon className='cursor-pointer hover:text-primary ml-5 duration-300 transition' icon={faMarker} /></Link>

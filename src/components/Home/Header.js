@@ -1,16 +1,17 @@
 import { faCartShopping, faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { resetKeyword, setKeyword } from '../../features/filter/filterSlice';
 import AccountFlip from './AccountFlip';
 
 const Header = () => {
     const [flip, setFlip] = useState(false);
-    const [cartFlip, setCartFlip] = useState(false);
     const cartProducts = useSelector((state) => state.cart.cart)
     const user = useSelector((state) => state.auth.userDetails);
 
+    const dispatch = useDispatch()
 
 
     const handleFlip = () => {
@@ -20,12 +21,12 @@ const Header = () => {
     return (
         <header className='py-4 shadow-sm bg-white lg:block hidden '>
             <div className='container flex justify-between items-center '>
-                <Link to={'/'} className=' uppercase font-semibold text-2xl'>Kinbaa<span className=' text-primary'>Naki?</span></Link>
+                <Link to={'/'} onClick={() => dispatch(resetKeyword())} className=' uppercase font-semibold text-2xl'>Kinbaa<span className=' text-primary'>Naki?</span></Link>
                 <div className='w-full max-w-xl relative flex'>
                     <span className='absolute left-4 top-3 text-lg text-gray-400'>
                         <FontAwesomeIcon icon={faSearch} />
                     </span>
-                    <input type="text" placeholder='Search' className='w-full border border-primary pl-12 py-3 pr-3 rounded-1-md focus:outline-none' />
+                    <input type="text" onChange={(e) => dispatch(setKeyword(e.target.value))} placeholder='Search' className='w-full border border-primary pl-12 py-3 pr-3 rounded-1-md focus:outline-none' />
                     <button className='bg-primary border border-primary text-white px-8 rounded-r-md hover:bg-transparent hover:text-[#FD3D57] transition'>Search</button>
                 </div>
                 <div className='flex  space-x-8'>

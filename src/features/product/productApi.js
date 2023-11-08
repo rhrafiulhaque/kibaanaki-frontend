@@ -7,7 +7,8 @@ export const productApi = apiSlice.injectEndpoints({
             providesTags: ["productList"]
         }),
         getProduct: builder.query({
-            query: (id) => `/products/${id}`
+            query: (id) => `/products/${id}`,
+            providesTags: ["getProduct"]
         }),
         addProduct: builder.mutation({
             query: (data) => ({
@@ -33,8 +34,11 @@ export const productApi = apiSlice.injectEndpoints({
                 method: "PATCH",
                 body: data,
             }),
-            invalidatesTags: ["productList"]
+            invalidatesTags: ["productList", "getProduct"]
+        }),
+        searchedProduct: (builder).query({
+            query: (data) => `/products/search/${data}`
         }),
     })
 })
-export const { useGetProductQuery, useGetProductsQuery, useAddProductMutation, useGetMonthlyAddOrderQuery, useDeleteProductMutation, useUpdateProductMutation } = productApi;
+export const { useGetProductQuery, useGetProductsQuery, useAddProductMutation, useSearchedProductQuery, useGetMonthlyAddOrderQuery, useDeleteProductMutation, useUpdateProductMutation } = productApi;

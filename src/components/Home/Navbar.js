@@ -1,8 +1,11 @@
 import { faBars, faBed, faChair, faPhone, faShirt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { resetKeyword } from '../../features/filter/filterSlice';
 
 const Navbar = () => {
+    const dispatch = useDispatch()
     return (
         <nav className='bg-gray-800 lg:block hidden'>
             <div className='container flex '>
@@ -35,7 +38,7 @@ const Navbar = () => {
 
                 <div className='flex items-center justify-center flex-grow pl-12'>
                     <div className='flex items-center space-x-6 capitalize'>
-                        <Link to={'/'} className='text-gray-200 hover:text-white transition'>Home</Link>
+                        <Link to={'/'} onClick={() => dispatch(resetKeyword())} className='text-gray-200 hover:text-white transition'>Home</Link>
                         <Link to={'/comingsoon'} className='text-gray-200 hover:text-white transition'>Shop</Link>
                         <Link to={'/comingsoon'} className='text-gray-200 hover:text-white transition'>About Us</Link>
                         <Link to={'/comingsoon'} className='text-gray-200 hover:text-white transition'>Contact Us</Link>

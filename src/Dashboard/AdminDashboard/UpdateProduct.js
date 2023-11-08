@@ -23,6 +23,7 @@ const UpdateProduct = () => {
     const { data: allBrand, isLoading: brandLoading, isError: brandisError, error: brandError } = useGetBrandListQuery();
     const [updateProduct, { isLoading: updateLoading, isError: updateIsError, isSuccess, error: updateError }] = useUpdateProductMutation()
 
+
     const [productName, setProductName] = useState('');
     const [category, setCategory] = useState('');
     const [brand, setBrand] = useState('');
@@ -35,6 +36,7 @@ const UpdateProduct = () => {
     const [imageUrl, setImageUrl] = useState('');
     const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [dataWithImage, setDataWithImage] = useState('');
 
     const navigate = useNavigate()
 
@@ -74,6 +76,29 @@ const UpdateProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const data = {
+            id,
+            brand: e.target.brand.value,
+            category: e.target.category.value,
+            description,
+            productName: e.target.productName.value,
+            price: e.target.price.value,
+            sizes
+        }
+
+        setDataWithImage({
+            id,
+            brand: e.target.brand.value,
+            category: e.target.category.value,
+            description,
+            productName: e.target.productName.value,
+            price: e.target.price.value,
+            sizes,
+            imageUrl
+        })
+        updateProduct(data)
+
+
         //    Image Submission Url Start
 
         if (image) {
@@ -97,32 +122,19 @@ const UpdateProduct = () => {
             setLoading(false); // Unset loading state after image upload
         }
 
-        setProductName(e.target.productName.value)
-        setPrice(e.target.price.value);
-        console.log(category)
-
-
-        //    Image Submission Url End 
-        navigate('/admin/productlist')
+        // //    Image Submission Url End 
+        // // navigate('/admin/productlist')
     }
+
+
+
     useEffect(() => {
-        if (productName && category && brand && price) {
-            updateProduct({
-                id,
-                productName,
-                category,
-                brand,
-                price,
-                sizes,
-                description,
-                imageThree,
-                imageUrl
-            })
-
-
+        if (imageUrl) {
+            dataWithImage.imageUrl = imageUrl
+            updateProduct(dataWithImage)
         }
 
-    }, [imageUrl, productName, category, brand, price]);
+    }, [imageUrl]);
 
 
 
@@ -136,7 +148,6 @@ const UpdateProduct = () => {
     if (categoryLoading || productLoading || brandLoading || loading || updateLoading) {
         return <Loading />
     }
-    console.log(updateError)
 
 
 
@@ -165,7 +176,7 @@ const UpdateProduct = () => {
 
                             <div>
                                 <label className="text-gray-600 mb-2 block">Brand <span className="text-primary">*</span></label>
-                                <select name="brand" defaultValue={product.product.brand} onChange={(e) => setBrand(e.target.value)} id="" required className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0">
+                                <select name="brand" defaultValue={product.product.brand} id="" required className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0">
                                     <option value="">Select Brand</option>
                                     {allBrand.data.map((brand) => (
                                         <option value={brand.brand.charAt(0).toUpperCase() + brand.brand.slice(1)}>{brand.brand.charAt(0).toUpperCase() + brand.brand.slice(1)}</option>

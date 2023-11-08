@@ -1,7 +1,30 @@
-import React from 'react';
-import SortedProductShow from './SortedProductShow';
+import { useSelector } from "react-redux";
+import { useSearchedProductQuery } from "../../features/product/productApi";
+import Product from "../Home/Product";
+import Loading from "../Loading/Loading";
+
+
 
 const ProductSort = () => {
+    const searchKeyword = useSelector((state) => state.filter.searchKeyword);
+    const { data: allProducts, isLoading, isError, error } = useSearchedProductQuery(searchKeyword);
+    const { data } = allProducts || {};
+    let content = null;
+    let noContent = null;
+    if (isLoading) {
+        content = <Loading />
+    }
+    if (!isLoading && isError) {
+        noContent = <p className='text-red-500'>There have no Products Of this "{searchKeyword}"</p>
+    }
+    if (!isLoading && !isError && data.length > 0) {
+        content = data.map((product) => <Product key={product.id} product={product} />)
+    }
+    if (!isLoading && !isError && data.length === 0) {
+        content = <p className='text-red-500'>There have no Products</p>
+    }
+
+
     return (
         <div className='container grid grid-cols-4 gap-6 mt-14 items-start'>
             <div className='col-span-1 bg-white px-4 pb-6 shadow rounded '>
@@ -103,7 +126,14 @@ const ProductSort = () => {
             </div>
 
             <div className='col-span-3'>
-                <SortedProductShow />
+                {noContent && <div className="flex align-middle text-center justify-center items-center lg:h-[220px]">
+                    <h1>{noContent}</h1>
+                </div>}
+                <div className='grid grid-cols-3 gap-6'>
+
+                    {content}
+                </div>
+
             </div>
 
         </div>
