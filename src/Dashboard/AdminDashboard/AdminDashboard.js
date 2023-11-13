@@ -21,8 +21,6 @@ const AdminDashboard = () => {
     const { data: users, isLoading: userLoading } = useGetAllUserQuery()
     const { data: orders, isLoading: orderLoading } = useAdminGetOrderListQuery()
 
-    console.log(monthlyProductCount)
-    console.log(error)
 
     useEffect(() => {
         if (!productsLoading && !userLoading && !orderLoading && !monthlyOrderLoading && monthlyOrder) {

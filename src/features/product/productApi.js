@@ -21,6 +21,9 @@ export const productApi = apiSlice.injectEndpoints({
         getMonthlyAddOrder: (builder).query({
             query: () => `/order/monthlyaddproduct`
         }),
+        getTopProductSold: (builder).query({
+            query: () => `/products/gettopproductsold`
+        }),
         deleteProduct: (builder).mutation({
             query: (id) => ({
                 url: `/products/${id}`,
@@ -37,8 +40,13 @@ export const productApi = apiSlice.injectEndpoints({
             invalidatesTags: ["productList", "getProduct"]
         }),
         searchedProduct: (builder).query({
-            query: (data) => `/products/search/${data}`
+            query: ({ searchKeyword, categoryFilter, brandFilter }) => {
+                const categoriesString = categoryFilter.join(',');
+                const brandsString = brandFilter.join(',');
+                return `/products/search?searchKeyword=${searchKeyword}&category=${categoriesString}&brand=${brandsString}`;
+            },
         }),
+
     })
 })
-export const { useGetProductQuery, useGetProductsQuery, useAddProductMutation, useSearchedProductQuery, useGetMonthlyAddOrderQuery, useDeleteProductMutation, useUpdateProductMutation } = productApi;
+export const { useGetProductQuery, useGetProductsQuery, useAddProductMutation, useSearchedProductQuery, useGetTopProductSoldQuery, useGetMonthlyAddOrderQuery, useDeleteProductMutation, useUpdateProductMutation } = productApi;

@@ -44,7 +44,6 @@ const UserDashboard = () => {
 
     const totalProductPrice = calculateTotalPrice(orderList?.data);
     const totalProduct = calculateTotalProductCount(orderList?.data);
-    console.log('Total  Products:', totalProduct);
 
 
     return (

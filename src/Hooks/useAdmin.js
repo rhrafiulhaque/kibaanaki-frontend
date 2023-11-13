@@ -17,7 +17,6 @@ const useAdmin = (email) => {
                     }
                 }
             } catch (error) {
-                console.log('Error:', error);
             } finally {
                 setAdminLoading(false);
             }

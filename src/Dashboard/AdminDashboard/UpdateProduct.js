@@ -24,11 +24,7 @@ const UpdateProduct = () => {
     const [updateProduct, { isLoading: updateLoading, isError: updateIsError, isSuccess, error: updateError }] = useUpdateProductMutation()
 
 
-    const [productName, setProductName] = useState('');
-    const [category, setCategory] = useState('');
-    const [brand, setBrand] = useState('');
-    const [price, setPrice] = useState('');
-    const [model, setModel] = useState('');
+
     const [description, setDescription] = useState('');
     const [sizes, setSizes] = useState([]);
     const [imageThree, setImageThree] = useState('');
@@ -39,8 +35,6 @@ const UpdateProduct = () => {
     const [dataWithImage, setDataWithImage] = useState('');
 
     const navigate = useNavigate()
-
-
     const handleSize = (e) => {
         const size = e.target.value;
         if (e.target.checked) {
@@ -57,19 +51,6 @@ const UpdateProduct = () => {
         }
     }
 
-    const resetForm = () => {
-        setProductName('');
-        setCategory('');
-        setBrand('');
-        setPrice('');
-        setModel('');
-        setDescription('');
-        setSizes([]);
-        setImageThree('');
-        setImage(null);
-        setImageUrl('');
-        setImagePreview(null);
-    }
 
 
 
@@ -83,6 +64,7 @@ const UpdateProduct = () => {
             description,
             productName: e.target.productName.value,
             price: e.target.price.value,
+            availableQuantity: e.target.availableQuantity.value,
             sizes
         }
 
@@ -93,6 +75,7 @@ const UpdateProduct = () => {
             description,
             productName: e.target.productName.value,
             price: e.target.price.value,
+            availableQuantity: e.target.availableQuantity.value,
             sizes,
             imageUrl
         })
@@ -190,10 +173,10 @@ const UpdateProduct = () => {
                                 <label className="text-gray-600 mb-2 block">Price <span className="text-primary">*</span></label>
                                 <input name='price' defaultValue={product.product.price} type="number" className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
                             </div>
-                            {/* <div>
-                                <label className="text-gray-600 mb-2 block">SKU Number <span className="text-primary">*</span></label>
-                                <input defaultValue={product.product.} type="text" className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" onChange={(e) => setModel(e.target.value)} />
-                            </div> */}
+                            <div>
+                                <label className="text-gray-600 mb-2 block">Available Product Quanity <span className="text-primary">*</span></label>
+                                <input name='availableQuantity' defaultValue={product.product.availableQuantity || 0} type="text" className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
+                            </div>
                         </div>
                         <div>
                             <label className="text-gray-600 mb-2 block">3D Image Link <span className="text-primary">(Optional)</span></label>

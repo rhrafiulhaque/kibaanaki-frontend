@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    searchKeyword: ''
+    searchKeyword: '',
+    category: [],
+    brand: []
 }
 
 export const filterSlice = createSlice({
@@ -16,30 +18,29 @@ export const filterSlice = createSlice({
             state.searchKeyword = ''
         },
 
+        addCategory: (state, action) => {
+            const isExist = state.category.includes(action.payload);
+            if (isExist) {
+                state.category = state.category.filter((cat) => cat !== action.payload)
+            } else {
+                state.category.push(action.payload)
+            }
+        },
+        addBrand: (state, action) => {
+            const isExist = state.brand.includes(action.payload);
+            if (isExist) {
+                state.brand = state.brand.filter((cat) => cat !== action.payload)
+            } else {
+                state.brand.push(action.payload)
+            }
+        }
 
-        // removeCart: (state, action) => {
-        //     const products = state.cart.filter((product) => product.productName !== action.payload)
-        //     state.cart = products
-        // },
 
 
-        // increaseQuantity: (state, action) => {
-        //     const productIndex = state.cart.findIndex((product) => product.productName === action.payload)
-        //     if (productIndex !== -1) {
-        //         state.cart[productIndex].quantity = state.cart[productIndex].quantity + 1;
-        //     }
-        // },
-        // decreaseQuantity: (state, action) => {
-        //     console.log(action.payload)
-        //     const productIndex = state.cart.findIndex((product) => product.productName === action.payload)
-        //     if (productIndex !== -1) {
-        //         state.cart[productIndex].quantity = state.cart[productIndex].quantity - 1;
-        //     }
-        // }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { setKeyword, resetKeyword } = filterSlice.actions
+export const { setKeyword, resetKeyword, addCategory, addBrand } = filterSlice.actions
 
 export default filterSlice.reducer

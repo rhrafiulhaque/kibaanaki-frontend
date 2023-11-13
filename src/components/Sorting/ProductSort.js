@@ -1,4 +1,7 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useGetBrandListQuery } from "../../features/brand/brandApi";
+import { useGetCategoryListQuery } from "../../features/category/categoryApi";
+import { addBrand, addCategory } from "../../features/filter/filterSlice";
 import { useSearchedProductQuery } from "../../features/product/productApi";
 import Product from "../Home/Product";
 import Loading from "../Loading/Loading";
@@ -7,13 +10,25 @@ import Loading from "../Loading/Loading";
 
 const ProductSort = () => {
     const searchKeyword = useSelector((state) => state.filter.searchKeyword);
-    const { data: allProducts, isLoading, isError, error } = useSearchedProductQuery(searchKeyword);
+    const categoryFilter = useSelector((state) => state.filter.category);
+    const brandFilter = useSelector((state) => state.filter.brand);
+    const { data: allProducts, isLoading, isError, error } = useSearchedProductQuery({ searchKeyword, categoryFilter, brandFilter });
+    const { data: categories, isLoading: catLoading } = useGetCategoryListQuery()
+    const { data: brands, isLoading: brandLoading } = useGetBrandListQuery()
+
+    const dispatch = useDispatch()
     const { data } = allProducts || {};
+    const { data: category } = categories || {};
+    const { data: brand } = brands || {};
     let content = null;
     let noContent = null;
     if (isLoading) {
         content = <Loading />
     }
+    if (catLoading || brandLoading) {
+        return <Loading />
+    }
+
     if (!isLoading && isError) {
         noContent = <p className='text-red-500'>There have no Products Of this "{searchKeyword}"</p>
     }
@@ -33,26 +48,16 @@ const ProductSort = () => {
                     <div>
                         <h1 className='uppercase py-5 font-medium text-xl'>Categories</h1>
                         <div className='space-y-2 '>
-                            <div className='flex items-center'>
-                                <input type="checkbox" id='cat-1' className='text-primary' />
-                                <label htmlFor="cat-1" className='text-gray-600 ml-3 cursor-pointer'>Women</label>
-                                <span className=' ml-auto text-gray-600 text-sm'>(15)</span>
+                            {
+                                category.map((cat) => (
+                                    <div className='flex items-center'>
+                                        <input type="checkbox" id='cat-1' onClick={() => dispatch(addCategory(cat.category))} className='text-primary' />
+                                        <label htmlFor="cat-1" className='text-gray-600 ml-3 cursor-pointer'>{cat.category.charAt(0).toUpperCase() + cat.category.slice(1)}</label>
+                                        <span className=' ml-auto text-gray-600 text-sm'>(15)</span>
 
-                            </div>
-
-                            <div className='flex items-center'>
-                                <input type="checkbox" id='cat-1' />
-                                <label htmlFor="cat-1" className='text-gray-600 ml-3 cursor-pointer'>Men</label>
-                                <span className=' ml-auto text-gray-600 text-sm'>(15)</span>
-
-                            </div>
-
-                            <div className='flex items-center'>
-                                <input type="checkbox" id='cat-1' />
-                                <label htmlFor="cat-1" className='text-gray-600 ml-3 cursor-pointer'>Shoes</label>
-                                <span className=' ml-auto text-gray-600 text-sm'>(15)</span>
-
-                            </div>
+                                    </div>
+                                ))
+                            }
 
                         </div>
                     </div>
@@ -61,28 +66,21 @@ const ProductSort = () => {
                     <div className='pt-4'>
                         <h1 className='uppercase py-5 font-medium text-xl'>Brand</h1>
                         <div className='space-y-2 '>
-                            <div className='flex items-center'>
-                                <input type="checkbox" id='cat-1' />
-                                <label htmlFor="cat-1" className='text-gray-600 ml-3 cursor-pointer'>Adidas</label>
 
-                            </div>
+                            {
+                                brand.map((brand) => (
+                                    <div className='flex items-center'>
+                                        <input type="checkbox" id='cat-1' onClick={() => dispatch(addBrand(brand.brand))} />
+                                        <label htmlFor="cat-1" className='text-gray-600 ml-3 cursor-pointer'>{brand.brand.charAt(0).toUpperCase() + brand.brand.slice(1)}</label>
 
-                            <div className='flex items-center'>
-                                <input type="checkbox" id='cat-1' />
-                                <label htmlFor="cat-1" className='text-gray-600 ml-3 cursor-pointer'>Gigabayte</label>
-
-                            </div>
-
-                            <div className='flex items-center'>
-                                <input type="checkbox" id='cat-1' />
-                                <label htmlFor="cat-1" className='text-gray-600 ml-3 cursor-pointer'>Nike</label>
-
-                            </div>
-
+                                    </div>
+                                ))
+                            }
                         </div>
                     </div>
 
-                    {/* Price Section */}
+
+                    {/* Price Section
 
                     <div className='pt-4'>
                         <h3 className='text-xl text-gray-800 mb-3 uppercase font-medium'>Price</h3>
@@ -90,9 +88,9 @@ const ProductSort = () => {
                             <input type="text" className='w-full border-gray-600 focus:border-primary foucus:ring-0 px-3 -y-1 text-gray-600 t4ext-sm shadow-sm rounded ' placeholder="min" />
                             <span className='mx-3 text-gray-500'>-</span>
                             <input type="text" className='w-full border-gray-600 focus:border-primary foucus:ring-0 px-3 -y-1 text-gray-600 t4ext-sm shadow-sm rounded ' placeholder="max" />                        </div>
-                    </div>
+                    </div> */}
 
-                    {/* Size Section  */}
+                    {/* Size Section 
                     <div className='pt-4'>
                         <h3 className='text-xl text-gray-800 mb-3 uppercase font-medium'>Size</h3>
                         <div className='flex items-center gap-2'>
@@ -121,7 +119,7 @@ const ProductSort = () => {
                                 </label>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 
@@ -137,6 +135,7 @@ const ProductSort = () => {
             </div>
 
         </div>
+
     );
 };
 

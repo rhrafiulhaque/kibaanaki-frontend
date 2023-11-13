@@ -2,21 +2,30 @@ import { faCartShopping, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import ProductRatings from '../../Utilities/ProductRatings';
 import { addCart } from '../../features/cart/cartSlice';
 import RelatedProducts from './RelatedProducts';
 
 const ProductDetails = ({ product }) => {
-    const { _id, productName, price, old_price, brand, model, description, color, imageUrl, imgThree, availibility, category, ratings = 0, size } = product;
+    const { _id, productName, price, brand, description, imageUrl, imgThree, availableQuantity, category, size, averageRating, ratingsQuantity } = product;
+    console.log(availableQuantity)
     const [quantity, setQuantity] = useState(1);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleAddToCart = (_id, productName, quantity, price, img) => {
         dispatch(addCart({ _id, productName, price, quantity, img }));
         toast.success(`${productName} added to cart`)
     }
+    const handleBuyNow = async (_id, productName, quantity, price, img) => {
+        dispatch(addCart({ _id, productName, price, quantity, img }));
+        navigate('/cart')
+
+    }
+
     return (
         <div className='container'>
             <div className=' grid grid-cols-2 gap-6 mt-10'>
@@ -28,16 +37,16 @@ const ProductDetails = ({ product }) => {
                 <div className='space-y-2'>
                     <h1 className='uppercase text-2xl font-medium'>{productName}</h1>
                     <div className='flex items-center space-x-2'>
-                        <ProductRatings ratings={ratings} />
-                        {/* <span className='flex items-center justify-center text-sm text-gray-500'>50 reviews</span> */}
+                        <ProductRatings ratings={averageRating} />
+                        <span className='flex items-center justify-center text-sm text-gray-500'>({ratingsQuantity} reviews)</span>
                     </div>
 
                     <div className='space-y-3 '>
-                        <h2 className='font-semibold'>Availability: <span className='text-green-700 font-normal'>In Stock</span></h2>
+                        <h2 className='font-semibold'>Availability: {availableQuantity > 0 ? <span className='text-green-700 font-normal'>In Stock</span> : <span className='text-red-700 font-semibold'>Out Of Stock</span>}</h2>
                         <h2 className='font-semibold'>Brand: <span className='text-gray-800 font-normal'>{brand}</span></h2>
                         <h2 className='font-semibold'>Category: <span className='text-gray-800 font-normal'>{category}</span></h2>
-                        <h2 className='font-semibold'>SKU: <span className='text-gray-800 font-normal'>{model}</span></h2>
-                        <h1 className='text-primary text-xl font-semibold '>${price} <span className='text-gray-500 line-through text-base'>${old_price}</span></h1>
+                        {/* <h1 className='text-primary text-xl font-semibold '>${price} <span className='text-gray-500 line-through text-base'>${old_price}</span></h1> */}
+                        <h1 className='text-primary text-xl font-semibold '>${price} </h1>
 
                         {/* <p>{description}</p> */}
                         <div dangerouslySetInnerHTML={{ __html: description }}></div>
@@ -76,8 +85,8 @@ const ProductDetails = ({ product }) => {
 
                         {/* Cart and Buythings Start  */}
                         <div className='flex  gap-6'>
-                            <button className='text-uppercase px-8 py-3 border border-gray-800 text-gray-800 rounded hover:border-primary hover:text-primary transition'> <FontAwesomeIcon icon={faHeart} />  Buy Now</button>
-                            <button className=' flex justify-center items-center text-uppercase px-8 py-3 border-primary border bg-primary text-white rounded-md hover:bg-white hover:text-primary transition' onClick={() => handleAddToCart(_id, productName, quantity, price, imageUrl)}> <FontAwesomeIcon icon={faCartShopping} className="mr-2" /> Add to Cart</button>
+                            <button className='text-uppercase px-8 py-3 border border-gray-800 text-gray-800 rounded hover:border-primary hover:text-primary transition disabled:hover:cursor-not-allowed' disabled={availableQuantity === 0 || availableQuantity === undefined} onClick={() => (handleBuyNow(_id, productName, quantity, price, imageUrl))} > <FontAwesomeIcon icon={faHeart} />  Buy Now</button>
+                            <button className=' flex justify-center items-center text-uppercase px-8 py-3 border-primary border bg-primary text-white rounded-md hover:bg-white hover:text-primary transition disabled:hover:bg-none disabled:text-white disabled:hover:cursor-not-allowed disabled:bg-red-400' disabled={availableQuantity === 0 || availableQuantity === undefined} onClick={() => handleAddToCart(_id, productName, quantity, price, imageUrl)}> <FontAwesomeIcon icon={faCartShopping} className="mr-2" /> Add to Cart</button>
 
 
                         </div>

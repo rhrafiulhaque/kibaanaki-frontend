@@ -30,6 +30,9 @@ import OrderDetails from './components/Orders/OrderDetails';
 import OrderList from './components/Orders/OrderList';
 import OrderPdf from './components/Orders/OrderPdf';
 import ProductList from './components/ProductList/ProductList';
+import AddReviews from './components/Reviews/AddReviews';
+import ReviewList from './components/Reviews/ReviewList';
+import UpdateReview from './components/Reviews/UpdateReview';
 import ShoppingCart from './components/ShoppingCart/ShoppingCart';
 import Home from './components/pages/Home';
 import Login from './components/pages/Login';
@@ -69,6 +72,9 @@ function App() {
           </RequireAuth>} />
           <Route path='/checkout' element={<RequireAuth><Checkout /></RequireAuth>} />
           <Route path='/payment-success' element={<RequireAuth><OrderComplete /></RequireAuth>} />
+          <Route path='/writereview/:id' element={<RequireAuth><AddReviews /></RequireAuth>} />
+          <Route path='/updatereview/:id/:revId/:userId/:userEmail' element={<RequireAuth><UpdateReview /></RequireAuth>} />
+          <Route path='/myreview' element={<RequireAuth><ReviewList /></RequireAuth>} />
 
           <Route path='/products/:id' element={<ProductView />} />
           <Route path='/admin' element={<AdminLoginForm />} />

@@ -17,7 +17,7 @@ const AddProduct = () => {
     const [category, setCategory] = useState('');
     const [brand, setBrand] = useState('');
     const [price, setPrice] = useState('');
-    const [model, setModel] = useState('');
+    const [availableQuantity, setAvailableQuantity] = useState('');
     const [description, setDescription] = useState('');
     const [sizes, setSizes] = useState([]);
     const [imageThree, setImageThree] = useState('');
@@ -52,7 +52,7 @@ const AddProduct = () => {
         setCategory('');
         setBrand('');
         setPrice('');
-        setModel('');
+        setAvailableQuantity('');
         setDescription('');
         setSizes([]);
         setImageThree('');
@@ -95,7 +95,7 @@ const AddProduct = () => {
                 category,
                 brand,
                 price,
-                model,
+                availableQuantity,
                 sizes,
                 description,
                 imageThree,
@@ -153,8 +153,8 @@ const AddProduct = () => {
                                 <input type="number" className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" onChange={(e) => setPrice(e.target.value)} />
                             </div>
                             <div>
-                                <label className="text-gray-600 mb-2 block">SKU Number <span className="text-primary">*</span></label>
-                                <input type="text" className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" onChange={(e) => setModel(e.target.value)} />
+                                <label className="text-gray-600 mb-2 block">Product Availabel Quantity  <span className="text-primary">*</span></label>
+                                <input type="text" className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" onChange={(e) => setAvailableQuantity(e.target.value)} />
                             </div>
                         </div>
                         <div>

@@ -193,7 +193,7 @@ const Checkout = () => {
                         cartProducts.map((products) => (
                             <div className="flex justify-between pt-2 space-x-7">
                                 <div>
-                                    <h5 className="text-gray-800 font-normal">{products?.product_name}</h5>
+                                    <h5 className="text-gray-800 font-normal">{products?.productName}</h5>
                                 </div>
                                 <p className="text-gray-600">
                                     x{products?.quantity}

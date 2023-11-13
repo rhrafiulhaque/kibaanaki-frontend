@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import DashboardLayout from '../../Dashboard/DashboardLayout';
 import { useGetOrderDetailsQuery } from '../../features/order/orderApi';
 import Loading from '../Loading/Loading';
@@ -78,15 +78,20 @@ const OrderDetails = () => {
 
                 <div className='mt-7'>
                     {orderDetails.data.products.map((product) => (
-                        <div className='flex  justify-between font-semibold shadow py-3 px-4'>
-                            <div className='flex gap-4'>
-                                <img className='w-28 h-28' src={product.img} alt='img' />
-                                <h1>
-                                    {product.product_name}
-                                </h1>
+                        <div className='py-3 px-4'>
+                            <div className='text-right'>
+                                <Link to={`/writereview/${product._id}`} className=' transition duration-300 px-4 py-3 border border-primary rounded-md text-primary hover:text-white hover:bg-primary'>Write Review </Link>
                             </div>
-                            <h1>Qty :{product.quantity}</h1>
-                            <h1>${product.price * product.quantity}</h1>
+                            <div className='flex  justify-between items-center font-semibold shadow '>
+                                <div className='flex gap-4'>
+                                    <img className='w-28 h-28' src={product.img} alt='img' />
+                                    <h1>
+                                        {product.product_name}
+                                    </h1>
+                                </div>
+                                <h1>Qty :{product.quantity}</h1>
+                                <h1>${product.price * product.quantity}</h1>
+                            </div>
                         </div>
                     ))}
 

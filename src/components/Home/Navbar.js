@@ -7,6 +7,7 @@ import { resetKeyword } from '../../features/filter/filterSlice';
 const Navbar = () => {
     const dispatch = useDispatch()
     return (
+
         <nav className='bg-gray-800 lg:block hidden'>
             <div className='container flex '>
                 <div className=' text-white px-8 py-4 bg-primary flex items-center justify-center cursor-pointer relative group'>

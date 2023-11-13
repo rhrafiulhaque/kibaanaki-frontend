@@ -73,7 +73,7 @@ const Sidebar = () => {
                     </p>
                     <Link to={'/getorderlist'} className='relative hover:text-primary block capitalize transition'> My Orders</Link>
                     <Link to={'/'} className='relative hover:text-primary block capitalize transition'> My Cacellations</Link>
-                    <Link to={'/'} className='relative hover:text-primary block capitalize transition'> My Reviews</Link>
+                    <Link to={'/myreview'} className='relative hover:text-primary block capitalize transition'> My Reviews</Link>
                 </div>
                 {/* single link end  */}
 
