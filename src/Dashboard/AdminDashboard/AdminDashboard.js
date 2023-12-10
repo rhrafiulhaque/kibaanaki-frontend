@@ -1,11 +1,12 @@
 import { faBox, faMessage, faMoneyBillTransfer, faMoneyBillTrendUp, faNotesMedical, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import { Bar, BarChart, CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import Loading from '../../components/Loading/Loading';
 import { useGetAllUserQuery } from '../../features/auth/authApi';
 import { useAdminGetOrderListQuery, useGetMonthlyOrderQuery } from '../../features/order/orderApi';
 import { useGetMonthlyAddOrderQuery, useGetProductsQuery } from '../../features/product/productApi';
+import { useGetAllReviewsQuery } from '../../features/ratingsreviews/ratingsReviewsApi';
 import AdminDashboardLayout from '../AdminDashboardLayout';
 
 const monthNames = [
@@ -20,7 +21,7 @@ const AdminDashboard = () => {
     const { data: monthlyProductCount, isLoading: monthlyProductCountLoading, error } = useGetMonthlyAddOrderQuery()
     const { data: users, isLoading: userLoading } = useGetAllUserQuery()
     const { data: orders, isLoading: orderLoading } = useAdminGetOrderListQuery()
-
+    const { data: reviewList, isLoading: reviewListLoading, isError: reviewListIsError } = useGetAllReviewsQuery()
 
     useEffect(() => {
         if (!productsLoading && !userLoading && !orderLoading && !monthlyOrderLoading && monthlyOrder) {
@@ -44,7 +45,7 @@ const AdminDashboard = () => {
 
 
 
-    if (productsLoading || userLoading || orderLoading || monthlyOrderLoading || monthlyProductCountLoading) {
+    if (productsLoading || userLoading || orderLoading || monthlyOrderLoading || monthlyProductCountLoading || reviewListLoading) {
         return <Loading />
     }
 
@@ -83,7 +84,7 @@ const AdminDashboard = () => {
                 <div className=' mt-10'>
                     <h1 className='text-3xl my-5 font-semibold text-center uppercase'>Over View</h1>
 
-                    <div className='grid grid-cols-3 mb-10 gap-5'>
+                    <div className='grid lg:grid-cols-3 grid-cols-1 mb-10 gap-5'>
                         <div className='bg-[#D1E8FB] rounded-md space-y-3 text-center p-5'>
                             <FontAwesomeIcon icon={faBox} className='rounded-full p-4 text-gray-700 text-xl bg-[#B0CBE6]' />
                             <h1 className='text-3xl text-[#1C2E68]'>{products?.products?.length}</h1>
@@ -101,7 +102,7 @@ const AdminDashboard = () => {
                         </div>
                         <div className='bg-[#FEE6D6] rounded-md space-y-3 text-center p-5'>
                             <FontAwesomeIcon icon={faMessage} className='rounded-full p-4 text-[#AD182B] text-xl bg-[#F3C8BF]' />
-                            <h1 className='text-3xl text-[#6C0018]'>26</h1>
+                            <h1 className='text-3xl text-[#6C0018]'>{reviewList.data?.length}</h1>
                             <p className='text-xl text-[#99354b]'>Total Reviews</p>
                         </div>
                         <div className='bg-[#FEF6CC] rounded-md space-y-3 text-center p-5'>
@@ -120,27 +121,31 @@ const AdminDashboard = () => {
 
 
 
-                <div className=''>
+                <div>
                     <h1 className='text-2xl font-semibold my-4'>Monthly Order Chart</h1>
-                    <LineChart width={600} height={300} data={monthlyOrderData}>
-                        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                        <XAxis dataKey="month" />
-                        <YAxis />
-                        <Tooltip />
-                        <Line type="monotone" dataKey="totalOrders" stroke="#8884d8" />
-                    </LineChart>
+                    <ResponsiveContainer aspect={2}>
+                        <LineChart width={600} height={300} data={monthlyOrderData}>
+                            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                            <XAxis dataKey="month" />
+                            <YAxis />
+                            <Tooltip />
+                            <Line type="monotone" dataKey="totalOrders" stroke="#8884d8" />
+                        </LineChart>
+                    </ResponsiveContainer>
                 </div>
 
 
                 <div className=''>
                     <h1 className='text-2xl font-semibold my-4'>Monthly Added Product Chart</h1>
-                    <BarChart width={600} height={300} data={monthlyProductCountData}>
-                        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                        <XAxis dataKey="month" />
-                        <YAxis />
-                        <Tooltip />
-                        <Bar dataKey="productCount" fill="#82ca9d" />
-                    </BarChart>
+                    <ResponsiveContainer aspect={2}>
+                        <BarChart width={600} height={300} data={monthlyProductCountData}>
+                            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                            <XAxis dataKey="month" />
+                            <YAxis />
+                            <Tooltip />
+                            <Bar dataKey="productCount" fill="#82ca9d" />
+                        </BarChart>
+                    </ResponsiveContainer>
                 </div>
 
 

@@ -28,12 +28,8 @@ const ProductDetails = ({ product }) => {
 
     return (
         <div className='container'>
-            <div className=' grid grid-cols-2 gap-6 mt-10'>
+            <div className=' grid lg:grid-cols-2 gap-6 mt-10'>
                 {imgThree ? <div className={`w-full c-viewer `}><iframe title="chair" className="c-viewer__iframe" src={imgThree} ></iframe></div> : <div className={`w-full`}> <img src={imageUrl} className="object-fill" alt='' /></div>}
-
-
-
-
                 <div className='space-y-2'>
                     <h1 className='uppercase text-2xl font-medium'>{productName}</h1>
                     <div className='flex items-center space-x-2'>

@@ -1,15 +1,17 @@
+import { useEffect } from 'react';
 import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useUserRegisterMutation } from '../../features/auth/authApi';
 import auth from '../../firebase.init';
 import Loading from '../Loading/Loading';
 
 const RegisterForm = () => {
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-    const [createUserWithEmailAndPassword, user, loading, error,] = useCreateUserWithEmailAndPassword(auth);
+    const [createUserWithEmailAndPassword, user, loading,] = useCreateUserWithEmailAndPassword(auth);
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
-    const [userRegister] = useUserRegisterMutation();
+    const [userRegister, { isLoading, error, isSuccess }] = useUserRegisterMutation();
     const navigate = useNavigate();
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -18,18 +20,25 @@ const RegisterForm = () => {
         const submittedData = {
             name, email, password, role: 'User'
         }
-        await createUserWithEmailAndPassword(email, password);
-        await updateProfile({ displayName: name });
+        // await createUserWithEmailAndPassword(email, password);
+        // await updateProfile({ displayName: name });
         await userRegister(submittedData);
     }
 
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success("Register Successfull. Please Check Your Email to Verify")
+        }
+    }, [isSuccess])
+
+
     let signInError = '';
     if (gError || updateError || error) {
-        signInError = <p className='text-red-500'>{gError?.message || updateError?.message || error?.message}</p>
+        signInError = <p className='text-red-500'>{gError?.message || updateError?.message || error?.data?.message}</p>
 
     }
 
-    if (gLoading || updating || loading) {
+    if (gLoading || updating || loading || isLoading) {
         return <Loading />
     }
 

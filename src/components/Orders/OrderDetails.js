@@ -20,7 +20,7 @@ const OrderDetails = () => {
 
                 <div>
                     <h1 className='text-xl my-2'>Order Details</h1>
-                    <div className='my-5 flex justify-between'>
+                    <div className='my-5 flex flex-col lg:flex-row lg:space-y-0 space-y-3 lg:justify-between justify-center align-middle items-center'>
                         <div>
                             <h1 className='font-semibold text-xl'>Sold By</h1>
                             <p>KinbaaNaki</p>
@@ -42,7 +42,7 @@ const OrderDetails = () => {
                     </div>
                 </div>
 
-                <div className='mx-auto w-full flex justify-center align-middle text-center items-center '>
+                <div className='hidden mx-auto w-full lg:flex justify-center align-middle text-center items-center '>
 
                     <ol class="flex items-center w-full">
                         <li class="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-full after:h-1 after:border-b after:border-blue-100 after:border-4 after:inline-block dark:after:border-blue-800">
@@ -71,19 +71,16 @@ const OrderDetails = () => {
                 </div>
 
 
-                <div className='text-center shadow  border-gray-400 px-4 py-2 mt-7'>
-                    <h1>Your Order is Now Progressing </h1>
-                </div>
 
 
                 <div className='mt-7'>
                     {orderDetails.data.products.map((product) => (
                         <div className='py-3 px-4'>
-                            <div className='text-right'>
+                            <div className='text-right hidden lg:block '>
                                 <Link to={`/writereview/${product._id}`} className=' transition duration-300 px-4 py-3 border border-primary rounded-md text-primary hover:text-white hover:bg-primary'>Write Review </Link>
                             </div>
-                            <div className='flex  justify-between items-center font-semibold shadow '>
-                                <div className='flex gap-4'>
+                            <div className='lg:flex  justify-between items-center font-semibold shadow '>
+                                <div className='lg:flex gap-4'>
                                     <img className='w-28 h-28' src={product.img} alt='img' />
                                     <h1>
                                         {product.product_name}
@@ -91,6 +88,9 @@ const OrderDetails = () => {
                                 </div>
                                 <h1>Qty :{product.quantity}</h1>
                                 <h1>${product.price * product.quantity}</h1>
+                                <div className='mt-6'>
+                                    <Link to={`/writereview/${product._id}`} className='lg:hidden transition duration-300 px-4 py-3 border border-primary rounded-md text-primary hover:text-white hover:bg-primary'>Write Review </Link>
+                                </div>
                             </div>
                         </div>
                     ))}

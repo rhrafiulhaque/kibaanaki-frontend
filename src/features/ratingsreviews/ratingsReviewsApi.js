@@ -19,6 +19,10 @@ export const ratingsReviewsApi = apiSlice.injectEndpoints({
             query: ({ userId, email }) => `/review/user/${userId}/${email}`,
             providesTags: ['getReviewListByUser']
         }),
+        getAllReviews: (builder).query({
+            query: () => `/review/getallreview`,
+            providesTags: ["getAllReviews"]
+        }),
         getReviewByUserIdAndReviewId: (builder).query({
             query: ({ userId, email, revId }) => `/review/getreviewidwithuserid/${userId}/${email}/${revId}`,
             providesTags: ['getReviewListByUserIdandReviewID']
@@ -28,7 +32,7 @@ export const ratingsReviewsApi = apiSlice.injectEndpoints({
                 url: `/review/deletereview/${userId}/${email}/${_id}`,
                 method: 'DELETE'
             }),
-            invalidatesTags: ['getReviewListByUser']
+            invalidatesTags: ['getReviewListByUser', "getAllReviews"]
         }),
         updateReview: builder.mutation({
             query: (data) => ({
@@ -43,4 +47,4 @@ export const ratingsReviewsApi = apiSlice.injectEndpoints({
 
     })
 })
-export const { useAddReviewMutation, useGetReviewsByUserIdQuery, useUpdateReviewMutation, useDeleteReviewsByUserIdMutation, useGetReviewByUserIdAndReviewIdQuery } = ratingsReviewsApi;
+export const { useAddReviewMutation, useGetReviewsByUserIdQuery, useUpdateReviewMutation, useGetAllReviewsQuery, useDeleteReviewsByUserIdMutation, useGetReviewByUserIdAndReviewIdQuery } = ratingsReviewsApi;

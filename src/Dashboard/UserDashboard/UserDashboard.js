@@ -50,7 +50,7 @@ const UserDashboard = () => {
         <DashboardLayout>
             <div className='col-span-9'>
 
-                <div className="grid grid-cols-3 gap-8 mt-10">
+                <div className="grid lg:grid-cols-3 grid-cols-1 gap-8 mt-10">
                     <div className="shadow p-10 text-center">
                         <FontAwesomeIcon className="text-7xl border rounded-full border-primary px-5 py-4 my-4 text-red-400 hover:text-white hover:bg-primary duration-300 transition  " icon={faBoxes} />
                         <h1 className="text-2xl font-bold">{orderList?.data?.length}</h1>

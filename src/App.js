@@ -23,6 +23,7 @@ import Header from './components/Home/Header';
 import Navbar from './components/Home/Navbar';
 import Loading from './components/Loading/Loading';
 import AdminLoginForm from './components/Login/AdminLogin/AdminLoginForm';
+import VerifyEmail from './components/Login/VerifyEmail';
 import ComingSoon from './components/NotFound/ComingSoon';
 import NotFound from './components/NotFound/NotFound';
 import OrderComplete from './components/Orders/OrderComplete';
@@ -31,6 +32,7 @@ import OrderList from './components/Orders/OrderList';
 import OrderPdf from './components/Orders/OrderPdf';
 import ProductList from './components/ProductList/ProductList';
 import AddReviews from './components/Reviews/AddReviews';
+import AdminReviewList from './components/Reviews/AdminReviewList';
 import ReviewList from './components/Reviews/ReviewList';
 import UpdateReview from './components/Reviews/UpdateReview';
 import ShoppingCart from './components/ShoppingCart/ShoppingCart';
@@ -55,6 +57,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path='/orderpdf' element={<OrderPdf />} />
+          <Route path='/verify-email' element={<VerifyEmail />} />
           <Route path='/profile/:email' element={<RequireAuth>
             <UserProfile />
           </RequireAuth>} />
@@ -107,6 +110,9 @@ function App() {
           </RequireAdmin>} />
           <Route path='/admin/updateproduct/:id' element={<RequireAdmin>
             <UpdateProduct />
+          </RequireAdmin>} />
+          <Route path='/admin/reviewlist' element={<RequireAdmin>
+            <AdminReviewList />
           </RequireAdmin>} />
           <Route path='/test' element={<ProductForm />} />
           <Route path='/sortedproduct' element={<Sorting />} />

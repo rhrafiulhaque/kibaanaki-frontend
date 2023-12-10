@@ -52,15 +52,15 @@ const UserProfile = () => {
                             <input type="text" name='name' defaultValue={userDetails?.user?.name} className="block w-full max-w-md border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
                         </div>
                         <div className='grid grid-cols-2 gap-6'>
-                            <div>
+                            {/* <div>
                                 <label className="text-gray-600 mb-2 block required">Birth Date <span className="text-primary">*</span></label>
                                 <input
                                     type="date"
-                                    defaultValue={new Date(userDetails?.user?.birthDate).toISOString().substr(0, 10)} // Convert to ISO 8601 format
+                                    defaultValue={new Date(userDetails?.user?.birthDate).toISOString().substr(0, 10)} 
                                     name='birthdate'
                                     className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0"
                                 />
-                            </div>
+                            </div> */}
                             <div>
                                 <label className="text-gray-600 mb-2 block">Gender <span className="text-primary">*</span></label>
                                 <select name="gender" id="" required className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0">
@@ -74,7 +74,7 @@ const UserProfile = () => {
                         <div className='grid grid-cols-2 gap-6'>
                             <div>
                                 <label className="text-gray-600 mb-2 block">Email<span className="text-primary">*</span></label>
-                                <input type="email" name='email' value={userDetails?.user?.email} disabled className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
+                                <input type="email" name='email' value={email} disabled className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" />
                             </div>
                             <div>
                                 <label className="text-gray-600 mb-2 block required">Mobile Number<span className="text-primary">*</span></label>

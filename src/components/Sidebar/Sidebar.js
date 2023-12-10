@@ -15,7 +15,7 @@ const Sidebar = () => {
         navigate('/');
     };
     return (
-        <div className='col-span-3'>
+        <div>
             {/* account profile Start  */}
             <div className='px-4 py-3 shadow flex items-center gap-4'>
                 <div className='flex-shrink-0'>
@@ -72,7 +72,7 @@ const Sidebar = () => {
                         My Order History
                     </p>
                     <Link to={'/getorderlist'} className='relative hover:text-primary block capitalize transition'> My Orders</Link>
-                    <Link to={'/'} className='relative hover:text-primary block capitalize transition'> My Cacellations</Link>
+
                     <Link to={'/myreview'} className='relative hover:text-primary block capitalize transition'> My Reviews</Link>
                 </div>
                 {/* single link end  */}

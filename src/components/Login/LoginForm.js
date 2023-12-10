@@ -1,5 +1,5 @@
 import jwt from 'jwt-decode';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -11,23 +11,28 @@ import auth from '../../firebase.init';
 import Loading from '../Loading/Loading';
 
 const LoginForm = () => {
-    const [signInError, setSignInError] = useState('');
+    let signInError = '';
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [userLogin] = useUserLoginMutation()
+    const [userLogin, { isSuccess, error, isError, isLoading }] = useUserLoginMutation()
     const navigate = useNavigate();
     const dispatch = useDispatch()
 
     const onSubmit = async (data) => {
         const userInfo = await userLogin(data)
+        localStorage.setItem('accessToken', userInfo?.data?.data?.accessToken)
+        const accessToken = userInfo?.data?.data?.accessToken;
+        const userDetails = jwt(accessToken);
+        await dispatch(addAuth({ accessToken, userDetails }))
+    }
 
-        if (userInfo?.error?.data?.success === false) {
-            setSignInError(userInfo?.error?.data?.message);
-        } else {
-            localStorage.setItem('accessToken', userInfo?.data?.data?.accessToken)
-            const accessToken = userInfo?.data?.data?.accessToken;
-            const userDetails = jwt(accessToken);
-            await dispatch(addAuth({ accessToken, userDetails }))
+
+    if (gError || error) {
+        signInError = <p className='text-red-500'>{gError?.message || error?.data?.message}</p>
+
+    }
+    useEffect(() => {
+        if (isSuccess) {
             navigate('/');
             toast.success(`Welcome to KinbaaNaki`, {
                 position: "top-center",
@@ -38,23 +43,14 @@ const LoginForm = () => {
                 draggable: true,
                 progress: undefined,
                 theme: "light",
-            });
-
+            })
         }
-
-    }
-
-    if (gError) {
-        setSignInError(gError?.message)
-    }
-
-    if (gLoading) {
+    }, [isSuccess, navigate])
+    if (gLoading || isLoading) {
         return <Loading />
     }
 
-    if (gUser) {
-        navigate('/');
-    }
+
 
     return (
         <div className='container py-16'>

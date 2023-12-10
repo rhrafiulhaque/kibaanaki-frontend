@@ -124,7 +124,7 @@ const AddProduct = () => {
                             <label className="text-gray-600 mb-2 block">Product Name <span className="text-primary">*</span></label>
                             <input type="text" className="block w-full max-w-md border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" onChange={(e) => setProductName(e.target.value)} />
                         </div>
-                        <div className='grid grid-cols-2 gap-6'>
+                        <div className='lg:grid lg:grid-cols-2 gap-6'>
                             <div>
                                 <label className="text-gray-600 mb-2 block">Category <span className="text-primary">*</span></label>
                                 <select name="category" onChange={(e) => setCategory(e.target.value)} id="" required className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0">
@@ -147,7 +147,7 @@ const AddProduct = () => {
                             </div>
 
                         </div>
-                        <div className='grid grid-cols-2 gap-6'>
+                        <div className='lg:grid lg:grid-cols-2 gap-6'>
                             <div>
                                 <label className="text-gray-600 mb-2 block">Price <span className="text-primary">*</span></label>
                                 <input type="number" className="block w-full  border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0" onChange={(e) => setPrice(e.target.value)} />
